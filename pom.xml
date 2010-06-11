@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.openske</groupId>
+    <artifactId>openske</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Open SKE</name>
+    <url>http://www.openske.com</url>
+
+    <modules>
+        <module>openske-model</module>
+        <module>maven-yuml-plugin</module>
+    <module>openske-engine</module>
+  </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Drools -->
+        <drools.version>5.0.1</drools.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jboss-maven-drools</id>
+            <name>jboss-maven-drools</name>
+            <url>http://repository.jboss.com/maven2</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <workspace>${basedir}</workspace>
+                    <useProjectReferences>true</useProjectReferences>
+                    <additionalBuildcommands>
+                        <buildcommand>org.drools.eclipse.droolsbuilder</buildcommand>
+                        <buildcommand>org.maven.ide.eclipse.maven2Builder</buildcommand>
+                    </additionalBuildcommands>
+                    <additionalProjectnatures>
+                        <projectnature>org.eclipse.jdt.core.javanature</projectnature>
+                    </additionalProjectnatures>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
