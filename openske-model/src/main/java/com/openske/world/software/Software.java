@@ -1,14 +1,14 @@
 package com.openske.world.software;
 
 public class Software {
-    
-    protected String version;
 
-    public String getVersion() {
-        return version;
-    }
+	protected String version;
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 }

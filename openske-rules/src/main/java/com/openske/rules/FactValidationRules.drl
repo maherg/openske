@@ -1,0 +1,19 @@
+#created on: Jun 11, 2010
+package com.openske.rules;
+
+#list any import classes here.
+
+import com.openske.world.networking.Host;
+import com.openske.world.assets.Asset;
+
+#declare any global variables here
+
+
+rule "Validate that hosts have an address"
+	
+	when
+		$host : Host(address == "")
+	then 
+		System.out.println("Host " + $host.getName() + " has an empty address, retracting it...");
+		retract($host);
+end
