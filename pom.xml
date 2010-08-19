@@ -8,7 +8,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Open SKE</name>
+	<name>OpenSKE</name>
 	<url>http://www.openske.com</url>
 
 	<modules>

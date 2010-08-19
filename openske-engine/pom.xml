@@ -7,7 +7,7 @@
 	<groupId>com.openske</groupId>
 	<artifactId>openske-engine</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>openske-engine</name>
+	<name>OpenSKE : Engine</name>
 
 	<parent>
 		<groupId>com.openske</groupId>
