@@ -3,9 +3,7 @@
 [Policy Authoring]->[Engine]
 [Network Configuration]->[Engine]
 [Vulnerability Scanners]->[Engine]
-[Engine]<->[Drools Expert System]
 [Domain Model]->[Drools Expert System]
-[Engine]creates->[World]
-[World]->[Drools Expert System]
-[Engine]->[Generated Reports]
+[Engine]<->[Drools Expert System]
 [Domain Rules]->[Drools Expert System]
+
