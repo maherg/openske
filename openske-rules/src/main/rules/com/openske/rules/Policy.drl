@@ -1,0 +1,7 @@
+package com.oepnske.rules;
+
+rule "Mark software with vulnerabilities as risky"
+    when
+        
+    then
+end

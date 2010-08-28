@@ -7,32 +7,28 @@ import junit.framework.TestSuite;
 /**
  * OpenSKE's Engine Tests
  */
-public class EngineTest 
-    extends TestCase
-{
+public class EngineTest extends TestCase {
     /**
      * Create the test case
-     *
-     * @param testName name of the test case
+     * 
+     * @param testName
+     *            name of the test case
      */
-    public EngineTest( String testName )
-    {
-        super( testName );
+    public EngineTest(String testName) {
+        super(testName);
     }
 
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
-    {
-        return new TestSuite( EngineTest.class );
+    public static Test suite() {
+        return new TestSuite(EngineTest.class);
     }
 
     /**
      * Rigourous Test :-)
      */
-    public void testEngineInitialization()
-    {
-        assertTrue( true );
+    public void testEngineInitialization() {
+        assertTrue(true);
     }
 }

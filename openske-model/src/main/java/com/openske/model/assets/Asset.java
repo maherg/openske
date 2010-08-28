@@ -5,41 +5,41 @@ import com.openske.model.networking.Host;
 
 public class Asset extends Element {
 
-	protected String name;
-	protected AssetScope scope;
-	protected Host host;
+    protected String name;
+    protected AssetScope scope;
+    protected Host host;
 
-	protected Asset(String name, Host host) {
-		this(name, host, AssetScope.INTERNET);
-	}
-	
-	protected Asset(String name, Host host, AssetScope scope) {
-		this.name = name;
-		this.host = host;
-		this.scope = scope;
-	}
+    protected Asset(String name, Host host) {
+        this(name, host, AssetScope.INTERNET);
+    }
 
-	public String getName() {
-		return name;
-	}
+    protected Asset(String name, Host host, AssetScope scope) {
+        this.name = name;
+        this.host = host;
+        this.scope = scope;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public AssetScope getScope() {
-		return scope;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setScope(AssetScope scope) {
-		this.scope = scope;
-	}
+    public AssetScope getScope() {
+        return scope;
+    }
 
-	public Host getHost() {
-		return host;
-	}
+    public void setScope(AssetScope scope) {
+        this.scope = scope;
+    }
 
-	public void setHost(Host host) {
-		this.host = host;
-	}
+    public Host getHost() {
+        return host;
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
+    }
 }
