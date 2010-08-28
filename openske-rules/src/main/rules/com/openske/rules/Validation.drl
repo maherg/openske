@@ -3,24 +3,22 @@ package com.openske.rules;
 
 #list any import classes here.
 
-import com.openske.model.networking.Host;
+import com.openske.model.hardware.Host;
 import com.openske.model.assets.Asset;
 
 #declare any global variables here
 
 rule "Validate that hosts have an address"
-    salience 100
     when
 	$host : Host(address == "")
     then
-	System.out.println("Host " + $host.getName() + " has an empty address, retracting it...");
 	retract($host);
 end
 
 rule "Indicate whether we don't have any assets"
-    salience 100
     when
         not( Asset() )
     then
         System.out.println("There are no assets defined till now");
 end
+

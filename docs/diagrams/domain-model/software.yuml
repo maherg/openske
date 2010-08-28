@@ -1,0 +1,11 @@
+# Class Definitions
+[Software|CPE ID;version;host;policyState]
+[Vulnerability|CVE ID;description]
+[Weakness|CWE ID;description]
+[AttackPattern|CAPEC ID;description]
+# Class Relations
+[Software]-dependencies[Software]
+[Software]-occurrences[Vulnerability]
+[Vulnerability]-caused by[Weakness]
+[AttackPattern]depends on-[Weakness]
+

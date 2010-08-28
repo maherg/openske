@@ -1,13 +1,14 @@
 package com.openske.model.assets;
 
-import com.openske.model.Element;
-import com.openske.model.networking.Host;
+import com.openske.model.hardware.Host;
+import com.openske.model.policy.PolicyState;
 
-public class Asset extends Element {
+public class Asset {
 
     protected String name;
     protected AssetScope scope;
     protected Host host;
+    protected PolicyState policyState;
 
     protected Asset(String name, Host host) {
         this(name, host, AssetScope.INTERNET);
@@ -41,5 +42,13 @@ public class Asset extends Element {
 
     public void setHost(Host host) {
         this.host = host;
+    }
+
+    public PolicyState getPolicyState() {
+        return policyState;
+    }
+
+    public void setPolicyState(PolicyState policyState) {
+        this.policyState = policyState;
     }
 }

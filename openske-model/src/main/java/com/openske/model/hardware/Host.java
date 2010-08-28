@@ -1,4 +1,4 @@
-package com.openske.model.networking;
+package com.openske.model.hardware;
 
 import java.util.List;
 

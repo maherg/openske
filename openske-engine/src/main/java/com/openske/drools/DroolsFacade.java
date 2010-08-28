@@ -5,10 +5,10 @@ import org.drools.builder.KnowledgeBuilderFactory;
 
 public class DroolsFacade {
 
-    protected KnowledgeBuilder kBuilder;
+    protected KnowledgeBuilder knowledgeBuilder;
 
     public DroolsFacade() {
-        kBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
     }
 
     public void addResource(String resourceUrl) {
@@ -16,6 +16,6 @@ public class DroolsFacade {
     }
 
     public void fireAllRules() {
-
+        
     }
 }

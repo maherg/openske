@@ -1,7 +1,13 @@
 package com.oepnske.rules;
 
-rule "Mark software with vulnerabilities as risky"
+/**
+ * Policy Rules
+ */
+
+rule "Informs if we have at least one risky element"
     when
         
     then
+        
 end
+
