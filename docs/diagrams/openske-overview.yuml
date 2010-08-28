@@ -1,0 +1,7 @@
+[Policy Rules]->[OpenSKE]
+[Vulnerabilities Found]->[OpenSKE]
+[Systems Information]->[OpenSKE]
+[OpenSKE]->[Policy Satisfaction Level]
+[OpenSKE]->[Possible Attack Traces]
+[OpenSKE]->[Possible Attack Patterns]
+[OpenSKE]->[Weaknesses Found]
