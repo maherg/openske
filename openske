@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ORIGINAL_CWD=$(pwd)
+OPENSKE_ROOT=$(dirname $0)
+OPENSKE_CONSOLE=$OPENSKE_ROOT/openske-console
+
+# Clean and install all of OpenSKE's artifacts
+mvn install
+
+if [ $? == "0" ]; then
+    cd $OPENSKE_CONSOLE
+    mvn exec:java -Dexec.mainClass=com.openske.console.Console
+    cd $ORIGINAL_CWD
+fi
