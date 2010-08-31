@@ -22,5 +22,13 @@
 		    <version>${project.version}</version>
 		</dependency>
 	</dependencies>
+    
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/rules</directory>
+            </resource>
+        </resources>
+    </build>
 
 </project>

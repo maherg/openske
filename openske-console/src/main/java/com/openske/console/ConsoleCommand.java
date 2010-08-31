@@ -8,6 +8,7 @@ public enum ConsoleCommand {
     BEANSHELL,
     EXIT,
     QUIT,
+    RUN,
     ;
     
     public String toString() {
