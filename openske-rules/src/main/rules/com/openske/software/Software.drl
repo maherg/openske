@@ -9,9 +9,9 @@ import com.openske.model.policy.PolicyState;
 
 rule "Mark any software with vulnerabilities or depends on vulnerable software as risky"
     when
-        $software : Software( vulnerabilities.size > 0, $softwareVulnerabilities : vulnerabilities )
+        $software : Software( vulnerabilities.size > 0 )
         or
-        $dependency : Software( policyState == PolicyState.RISKY ) from $softwareVulnerabilities
+        $dependency : Software( policyState == PolicyState.RISKY ) from $software.dependencies
     then
         $software.setPolicyState(PolicyState.RISKY);
 end

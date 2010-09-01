@@ -60,6 +60,10 @@ public class Console {
         }
         // Upon exiting the console, stop the engine if we started it
         if(engine.isStarted()) {
+            // Write a new line if CTRL-D was pressed
+            if(line == null) {
+                consoleWriter.println();
+            }
             engine.stop();
         }
     }

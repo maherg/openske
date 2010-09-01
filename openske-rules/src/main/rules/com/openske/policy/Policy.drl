@@ -4,10 +4,11 @@ package com.oepnske.rules;
  * Policy Rules
  */
 
+/*
 rule "Informs if we have at least one risky element"
     when
         
     then
         
 end
-
+*/

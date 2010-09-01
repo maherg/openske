@@ -16,7 +16,7 @@ public class Engine {
 
     public Engine() {
         // Engine Initialization
-        outputWriter = new PrintWriter(System.out);
+        outputWriter = new PrintWriter(System.out, true);
         // Drools Initialization
         drools = new DroolsFacade();
         drools.setOutputWriter(outputWriter);
@@ -24,7 +24,6 @@ public class Engine {
         started = false;
     }
 
-    //@Override
     public void run() {
         if(this.isStarted()) {
             outputWriter.format("OpenSKE engine is already running");
@@ -63,5 +62,11 @@ public class Engine {
         this.outputWriter = outputWriter;
         // Change Drools output writer as well
         drools.setOutputWriter(outputWriter);
+    }
+    
+    public static void main(String[] args) {
+        Engine engine = new Engine();
+        engine.run();
+        engine.stop();
     }
 }
