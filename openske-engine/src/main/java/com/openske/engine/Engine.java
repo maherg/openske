@@ -29,6 +29,7 @@ public class Engine {
             outputWriter.format("OpenSKE engine is already running");
             return;
         } else {
+            outputWriter.format("Running OpenSKE engine...");
             try {
                 // Marking the engine as started from the beginning,
                 // since it's running in it's own thread
@@ -39,12 +40,14 @@ public class Engine {
             }
             catch(Throwable t) {
                 t.printStackTrace(outputWriter);
+                this.stop();
             }
         }
     }
     
     public void stop() {
         if(this.isStarted()) {
+            outputWriter.format("Stopping OpenSKE engine...");
             drools.cleanup();
             started = false;
         }

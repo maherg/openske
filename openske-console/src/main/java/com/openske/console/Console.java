@@ -40,12 +40,23 @@ public class Console {
                 case QUIT:
                     exitConsole = true;
                     break;
-                case RUN:
+                case START:
                     if (!engine.isStarted()) {
                         engine.run();
                     }
                     break;
+                case STOP:
+                    if(engine.isStarted()) {
+                        engine.stop();
+                    }
+                    break;
+                case RESTART:
+                    engine.stop();
+                    engine.run();
+                    break;
                 case HELP:
+                    consoleWriter.println("The following are the available commands :");
+                    consoleWriter.print(ConsoleCommand.displayHelp());
                     break;
                 case BEANSHELL:
                     break;
@@ -58,12 +69,12 @@ public class Console {
                 break;
             }
         }
+        // Write a new line if CTRL-D was pressed
+        if(line == null) {
+            consoleWriter.println();
+        }
         // Upon exiting the console, stop the engine if we started it
         if(engine.isStarted()) {
-            // Write a new line if CTRL-D was pressed
-            if(line == null) {
-                consoleWriter.println();
-            }
             engine.stop();
         }
     }

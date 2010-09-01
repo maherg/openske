@@ -1,8 +1,10 @@
 package com.openske.drools;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.Collection;
 
+import org.apache.commons.io.FileUtils;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
@@ -23,15 +25,26 @@ public class DroolsFacade {
     protected KnowledgeRuntimeLogger logger;
 
     public DroolsFacade() {
-        knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        
     }
     
+    @SuppressWarnings("unchecked")
     public void loadRules() throws Throwable {
-        String[] drlFiles = new String[] { "com/openske/assets/Assets.drl", "com/openske/policy/Policy.drl", "com/openske/software/Software.drl", "com/openske/Validation.drl" };
-        outputWriter.format("Loading %d rules from the classpath...", drlFiles.length);
-        for(String drl : drlFiles) {
-            outputWriter.format("\t - Loading '%s' ...", drl);
-            knowledgeBuilder.add(ResourceFactory.newClassPathResource(drl), ResourceType.DRL);
+        
+        // Search for DRL files starting from the current directory
+        File rootDir = new File(".");
+        Collection<File> drlFiles = FileUtils.listFiles(rootDir, new String[] { "drl" }, true);
+        outputWriter.format("Loading rules from %s...", rootDir.getAbsolutePath());
+        
+        // Load the found DRL files into a new KnowledgeBuilder
+        knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        for(File drl : drlFiles) {
+            // Skip /target/ entries
+            if(drl.getAbsolutePath().contains("/target/")) {
+                continue;
+            }
+            outputWriter.format("\t - Loading '%s' ...", drl.getPath());
+            knowledgeBuilder.add(ResourceFactory.newFileResource(drl.getAbsolutePath()), ResourceType.DRL);
             if(knowledgeBuilder.hasErrors()) {
                 outputWriter.format(knowledgeBuilder.getErrors().toString());
                 throw new RuntimeException("Found errors in DRL file : " + drl);
@@ -52,7 +65,9 @@ public class DroolsFacade {
     }
 
     public void fireAllRules() {
-        
+        outputWriter.format("Firing all rules...");
+        int rulesFired = getSession().fireAllRules();
+        outputWriter.format("Fired %d rules", rulesFired);
     }
     
     public void cleanup() {
@@ -62,7 +77,7 @@ public class DroolsFacade {
     protected StatefulKnowledgeSession getSession() {
         if(session == null) {
             session = knowledgeBase.newStatefulKnowledgeSession();
-            outputWriter.format("Opened new Drools session (%d)", session.getId());
+            outputWriter.format("Opened new Drools session (%s)", session.toString());
             logger = KnowledgeRuntimeLoggerFactory.newConsoleLogger(session);
         }
         return session;
@@ -71,9 +86,9 @@ public class DroolsFacade {
     protected void closeSession() {
         if(session != null) {
             logger.close();
-            int sessionId = session.getId();
+            String sessionStr = session.toString();
             session.dispose();
-            outputWriter.format("Closed Drools session (%d)", sessionId);
+            outputWriter.format("Closed Drools session (%s)", sessionStr);
             session = null;
         }
     }

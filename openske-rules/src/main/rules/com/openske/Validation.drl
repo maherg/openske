@@ -6,6 +6,7 @@ package com.openske.rules;
 import com.openske.model.hardware.Host;
 import com.openske.model.assets.Asset;
 
+
 #declare any global variables here
 
 rule "Validate that hosts have an address"
