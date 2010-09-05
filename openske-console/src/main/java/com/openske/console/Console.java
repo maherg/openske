@@ -7,14 +7,15 @@ import jline.SimpleCompletor;
 import com.openske.engine.Engine;
 
 public class Console {
-    
+
     public Console() {
-        
+
     }
 
     public static void main(String[] args) throws Throwable {
         ConsoleWriter consoleWriter = new ConsoleWriter(System.out);
-        ConsoleReader consoleReader = new ConsoleReader(System.in, consoleWriter);
+        ConsoleReader consoleReader = new ConsoleReader(System.in,
+                consoleWriter);
         consoleReader.setDefaultPrompt("openske> ");
 
         consoleReader.addCompletor(new ArgumentCompletor(new SimpleCompletor(
@@ -24,58 +25,64 @@ public class Console {
         consoleWriter.format("Welcome to OpenSKE (JVM: %s) !", System
                 .getProperty("java.version"));
         consoleWriter.format("Type 'help' for help\n");
-        String line;
+        String line = null;
         Engine engine = new Engine();
         engine.setOutputWriter(consoleWriter);
-        while ((line = consoleReader.readLine()) != null) {
-            line = line.trim();
-            if (line.equals("")) {
-                continue;
-            }
-            boolean exitConsole = false;
-            try {
-                ConsoleCommand cmd = ConsoleCommand.valueOf(line.toUpperCase());
-                switch (cmd) {
-                case EXIT:
-                case QUIT:
-                    exitConsole = true;
-                    break;
-                case START:
-                    if (!engine.isStarted()) {
-                        engine.run();
-                    }
-                    break;
-                case STOP:
-                    if(engine.isStarted()) {
+        try {
+            while ((line = consoleReader.readLine()) != null) {
+                line = line.trim();
+                if (line.equals("")) {
+                    continue;
+                }
+                boolean exitConsole = false;
+                try {
+                    ConsoleCommand cmd = ConsoleCommand.valueOf(line
+                            .toUpperCase());
+                    switch (cmd) {
+                    case EXIT:
+                    case QUIT:
+                        exitConsole = true;
+                        break;
+                    case START:
+                        if (!engine.isStarted()) {
+                            engine.run();
+                        }
+                        break;
+                    case STOP:
+                        if (engine.isStarted()) {
+                            engine.stop();
+                        }
+                        break;
+                    case RESTART:
                         engine.stop();
+                        engine.run();
+                        break;
+                    case HELP:
+                        consoleWriter
+                                .println("The following are the available commands :");
+                        consoleWriter.print(ConsoleCommand.displayHelp());
+                        break;
+                    case BEANSHELL:
+                        break;
                     }
-                    break;
-                case RESTART:
-                    engine.stop();
-                    engine.run();
-                    break;
-                case HELP:
-                    consoleWriter.println("The following are the available commands :");
-                    consoleWriter.print(ConsoleCommand.displayHelp());
-                    break;
-                case BEANSHELL:
+                } catch (Exception e) {
+                    consoleWriter.format("Failed to execute : '%s'", line);
+                    e.printStackTrace(consoleWriter);
+                    continue;
+                }
+                if (exitConsole) {
                     break;
                 }
-            } catch (Exception e) {
-                consoleWriter.format("Failed to execute : '%s'", line);
-                e.printStackTrace(consoleWriter);
             }
-            if (exitConsole) {
-                break;
+        } finally {
+            // Write a new line if CTRL-D was pressed
+            if (line == null) {
+                consoleWriter.println();
             }
-        }
-        // Write a new line if CTRL-D was pressed
-        if(line == null) {
-            consoleWriter.println();
-        }
-        // Upon exiting the console, stop the engine if we started it
-        if(engine.isStarted()) {
-            engine.stop();
+            // Upon exiting the console, stop the engine if we started it
+            if (engine.isStarted()) {
+                engine.stop();
+            }
         }
     }
 }
