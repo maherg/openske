@@ -1,6 +1,7 @@
 package com.openske.console;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum ConsoleCommand {
@@ -37,6 +38,10 @@ public enum ConsoleCommand {
 
     public String getHelpText() {
         return helpText;
+    }
+    
+    public static boolean exists(String cmdName) {
+        return Arrays.asList(valueNames()).contains(cmdName);
     }
     
     public static String displayHelp() {

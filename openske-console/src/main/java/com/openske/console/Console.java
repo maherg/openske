@@ -38,35 +38,41 @@ public class Console {
                 }
                 boolean exitConsole = false;
                 try {
-                    ConsoleCommand cmd = ConsoleCommand.valueOf(line
-                            .toUpperCase());
-                    switch (cmd) {
-                    case EXIT:
-                    case QUIT:
-                        exitConsole = true;
-                        break;
-                    case START:
-                        if (!engine.isStarted()) {
-                            engine.run();
-                        }
-                        break;
-                    case STOP:
-                        if (engine.isStarted()) {
+                    if (ConsoleCommand.exists(line)) {
+                        ConsoleCommand cmd = ConsoleCommand.valueOf(line
+                                .toUpperCase());
+                        switch (cmd) {
+                        case EXIT:
+                        case QUIT:
+                            exitConsole = true;
+                            break;
+                        case START:
+                            if (!engine.isStarted()) {
+                                engine.run();
+                            }
+                            break;
+                        case STOP:
+                            if (engine.isStarted()) {
+                                engine.stop();
+                            }
+                            break;
+                        case RESTART:
                             engine.stop();
+                            engine.run();
+                            break;
+                        case HELP:
+                            consoleWriter
+                                    .println("The following commands are available :");
+                            consoleWriter.print(ConsoleCommand.displayHelp());
+                            break;
+                        case BEANSHELL:
+                            break;
                         }
-                        break;
-                    case RESTART:
-                        engine.stop();
-                        engine.run();
-                        break;
-                    case HELP:
-                        consoleWriter
-                                .println("The following are the available commands :");
-                        consoleWriter.print(ConsoleCommand.displayHelp());
-                        break;
-                    case BEANSHELL:
-                        break;
+                    } else {
+                        consoleWriter.format("Unknown command : %s", line);
+                        continue;
                     }
+
                 } catch (Exception e) {
                     consoleWriter.format("Failed to execute : '%s'", line);
                     e.printStackTrace(consoleWriter);
