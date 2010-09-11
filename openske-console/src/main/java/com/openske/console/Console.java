@@ -16,15 +16,17 @@ public class Console {
         ConsoleWriter consoleWriter = new ConsoleWriter(System.out);
         ConsoleReader consoleReader = new ConsoleReader(System.in,
                 consoleWriter);
-        consoleReader.setDefaultPrompt("openske> ");
+        consoleReader.setDefaultPrompt("\033[1;36mopenske>\033[m ");
 
         consoleReader.addCompletor(new ArgumentCompletor(new SimpleCompletor(
                 ConsoleCommand.valueNames())));
 
         // MAIN LOOP
+        consoleWriter.print("\033[1;33m");
         consoleWriter.format("Welcome to OpenSKE (JVM: %s) !", System
                 .getProperty("java.version"));
         consoleWriter.format("Type 'help' for help\n");
+        consoleWriter.print("\033[m");
         String line = null;
         Engine engine = new Engine();
         engine.setOutputWriter(consoleWriter);
