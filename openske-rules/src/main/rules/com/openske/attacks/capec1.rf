@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="flow" id="capec1" package-name="com.openske.rules.attacks" >
+
+  <header>
+  </header>
+
+  <nodes>
+    <start id="1" name="Start" x="100" y="100" />
+    <end id="2" name="End" x="477" y="103" width="80" height="40" />
+    <actionNode id="3" name="Log Action" x="282" y="102" width="87" height="40" >
+        <action type="expression" dialect="java" >System.out.println("CAPEC-1 is running now");</action>
+    </actionNode>
+  </nodes>
+
+  <connections>
+    <connection from="3" to="2" />
+    <connection from="1" to="3" />
+  </connections>
+
+</process>
