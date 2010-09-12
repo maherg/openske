@@ -18,7 +18,7 @@ public class DroolsResourceHelper {
         if(ResourceType.DRL.equals(type)) {
             suffix = "drl";
         } else if(ResourceType.DRF.equals(type)) {
-            suffix = "drf";
+            suffix = "rf";
         }
         return FileUtils.listFiles(Engine.currentWorkingDirectory(), FileFilterUtils.suffixFileFilter(suffix), new EngineIOFilter());
     }

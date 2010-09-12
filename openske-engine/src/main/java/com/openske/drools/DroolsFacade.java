@@ -108,7 +108,9 @@ public class DroolsFacade {
 
     public void startProcesses() {
         if (isInitialized()) {
-            for (File rf : DroolsResourceHelper.listResources(ResourceType.DRF)) {
+            Collection<File> rfFiles = DroolsResourceHelper.listResources(ResourceType.DRF);
+            outputWriter.format("Starting %d processes...", rfFiles.size());
+            for (File rf : rfFiles) {
                 String processId = DroolsRuleFlowHelper.extractRuleFlowId(rf);
                 if (processId != null) {
                     outputWriter.format("\t - Starting process '%s'...", processId);

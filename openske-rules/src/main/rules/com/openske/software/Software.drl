@@ -18,5 +18,6 @@ rule "Mark any software with vulnerabilities or depends on vulnerable software a
             $software : Software( dependencies contains $riskyDependency )
         )
     then
+        System.out.println("[DRL] Setting " + $software + " as risky");
         $software.setPolicyState(PolicyState.RISKY);
 end

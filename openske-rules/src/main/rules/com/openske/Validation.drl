@@ -20,6 +20,6 @@ rule "Indicate whether we don't have any assets"
     when
         not( Asset() )
     then
-        System.out.println("There are no assets defined till now");
+        System.out.println("\t - There are no assets defined till now");
 end
 
