@@ -19,7 +19,7 @@ fi
 
 # Clean and install all of OpenSKE's artifacts
 
-message "Compiling OpenSKE..."
+message "Building OpenSKE..."
 
 $MAVEN_BIN -q clean install -DskipTests
 
