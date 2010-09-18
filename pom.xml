@@ -13,7 +13,7 @@
     <modules>
 	<module>openske-model</module>
 	<module>openske-engine</module>
-	<module>openske-rules</module>
+	<module>openske-expertise</module>
     <module>openske-console</module>
   </modules>
 

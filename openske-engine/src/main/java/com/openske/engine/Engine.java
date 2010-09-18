@@ -2,6 +2,7 @@ package com.openske.engine;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.List;
 
 import com.openske.drools.DroolsFacade;
 
@@ -67,6 +68,15 @@ public class Engine {
 
     public boolean isStarted() {
         return started;
+    }
+    
+    public static void insertFact(Object fact) {
+        // TODO : insertFact
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static void insertFacts(List facts) {
+        // TODO : insertFacts
     }
 
     public PrintWriter getOutputWriter() {

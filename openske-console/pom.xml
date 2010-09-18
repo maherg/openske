@@ -22,6 +22,12 @@
         </dependency>
         
         <dependency>
+            <groupId>com.openske</groupId>
+            <artifactId>openske-expertise</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
             <groupId>jline</groupId>
             <artifactId>jline</artifactId>
             <version>0.9.94</version>
