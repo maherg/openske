@@ -5,6 +5,8 @@ import java.util.List;
 import com.openske.model.software.Software;
 
 public class Host extends Connectable {
+    
+    String identifier;
 
     protected List<Software> softwares;
 
@@ -18,5 +20,13 @@ public class Host extends Connectable {
 
     public void setSoftwares(List<Software> softwares) {
         this.softwares = softwares;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

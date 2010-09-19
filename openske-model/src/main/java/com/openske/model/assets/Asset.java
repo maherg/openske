@@ -1,14 +1,14 @@
 package com.openske.model.assets;
 
 import com.openske.model.hardware.Host;
-import com.openske.model.policy.PolicyState;
+import com.openske.model.security.SecurityState;
 
 public class Asset {
 
     protected String name;
     protected AssetScope scope;
     protected Host host;
-    protected PolicyState policyState;
+    protected SecurityState securityState;
 
     protected Asset(String name, Host host) {
         this(name, host, AssetScope.INTERNET);
@@ -44,11 +44,11 @@ public class Asset {
         this.host = host;
     }
 
-    public PolicyState getPolicyState() {
-        return policyState;
+    public SecurityState getSecurityState() {
+        return securityState;
     }
 
-    public void setPolicyState(PolicyState policyState) {
-        this.policyState = policyState;
+    public void setSecurityState(SecurityState securityState) {
+        this.securityState = securityState;
     }
 }

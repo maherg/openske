@@ -5,7 +5,7 @@ package com.openske.rules;
  */
 
 import com.openske.model.software.Software;
-import com.openske.model.policy.PolicyState;
+import com.openske.model.security.SecurityState;
 
 
 rule "Mark any software with vulnerabilities or depends on vulnerable software as risky"
@@ -13,11 +13,11 @@ rule "Mark any software with vulnerabilities or depends on vulnerable software a
         $software : Software( vulnerabilities.size > 0 )
         or
         (
-            $riskyDependency : Software( policyState == PolicyState.RISKY )
+            $riskyDependency : Software( securityState == SecurityState.RISKY )
             and
             $software : Software( dependencies contains $riskyDependency )
         )
     then
         System.out.println("[DRL] Setting " + $software + " as risky");
-        $software.setPolicyState(PolicyState.RISKY);
+        $software.setSecurityState(SecurityState.RISKY);
 end

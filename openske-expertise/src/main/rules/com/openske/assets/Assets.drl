@@ -7,20 +7,20 @@ package com.openske.rules;
 import com.openske.model.hardware.Host;
 import com.openske.model.assets.Asset;
 import com.openske.model.software.Software;
-import com.openske.model.policy.PolicyState;
+import com.openske.model.security.SecurityState;
 
 rule "Mark assets that reside on a vulnerable host or are connected to at least one vulnerable host"
     when
         $asset : Asset( $assetHost : host )
         exists(
-            Software( host == $assetHost , policyState == PolicyState.RISKY )
+            Software( host == $assetHost , securityState == SecurityState.RISKY )
             or
             (
                 $connectedHost : Host( connections contains $assetHost )
                 and
-                Software( host == $connectedHost , policyState == PolicyState.RISKY )
+                Software( host == $connectedHost , securityState == SecurityState.RISKY )
             )
         )
     then
-        $asset.setPolicyState(PolicyState.RISKY);
+        $asset.setSecurityState(SecurityState.RISKY);
 end

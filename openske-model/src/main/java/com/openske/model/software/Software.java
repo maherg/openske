@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openske.model.hardware.Host;
-import com.openske.model.policy.PolicyState;
+import com.openske.model.security.SecurityState;
 
 public class Software {
 
@@ -13,7 +13,7 @@ public class Software {
     protected Host host;
     protected List<Software> dependencies;
     protected List<Vulnerability> vulnerabilities;
-    protected PolicyState policyState;
+    protected SecurityState securityState;
 
     public Software(String name, String version, Host host) {
         this.name = name;
@@ -21,7 +21,7 @@ public class Software {
         this.host = host;
         this.vulnerabilities = new ArrayList<Vulnerability>();
         this.dependencies = new ArrayList<Software>();
-        this.policyState = PolicyState.SAFE;
+        this.securityState = SecurityState.SAFE;
     }
 
     public String getName() {
@@ -52,12 +52,12 @@ public class Software {
         return vulnerabilities;
     }
 
-    public PolicyState getPolicyState() {
-        return policyState;
+    public SecurityState getSecurityState() {
+        return securityState;
     }
 
-    public void setPolicyState(PolicyState policyState) {
-        this.policyState = policyState;
+    public void setSecurityState(SecurityState securityState) {
+        this.securityState = securityState;
     }
 
     public void setVulnerabilities(List<Vulnerability> vulnerabilities) {

@@ -1,0 +1,7 @@
+# Class Definitions
+[UserAccount|username;homeDirectory;state;shell;host]
+[User|fullName;email]
+[Group|name;host]
+# Class Relations
+[UserAccount]-accounts[User]
+[Group]users-[UserAccount]

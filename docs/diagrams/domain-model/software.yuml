@@ -1,5 +1,5 @@
 # Class Definitions
-[Software|CPE ID;version;host;policyState]
+[Software|CPE ID;host;securityState]
 [Vulnerability|CVE ID;description]
 [Weakness|CWE ID;description]
 [AttackPattern|CAPEC ID;description]
