@@ -28,5 +28,4 @@ if [ $? == "0" ]; then
     message "Running OpenSKE's console..."
 
     $MAVEN_BIN -q -f $OPENSKE_CONSOLE/pom.xml exec:java -Dexec.mainClass=com.openske.console.Console
-    cd $ORIGINAL_CWD
 fi
