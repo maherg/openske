@@ -1,0 +1,26 @@
+package com.openske.rules;
+
+/**
+ * Software Rules
+ */
+
+import com.openske.model.software.Software;
+import com.openske.model.security.SecurityState;
+
+
+rule "Mark vulnerable software or others that depend on it as risky"
+    when
+        # Match any software that has vulnerabilities
+        $sw : Software( vulnerabilities.size > 0 )
+        or
+        (
+            # Match any previously identified risky software
+            $dep : Software( securityState == SecurityState.RISKY )
+            and
+            # Check if any software depends on the matched risky one
+            $sw : Software( dependencies contains $dep )
+        )
+    then
+        System.out.println("[SOFTWARE] Setting " + $sw.toString() + " as risky");
+        $sw.setSecurityState(SecurityState.RISKY);
+end

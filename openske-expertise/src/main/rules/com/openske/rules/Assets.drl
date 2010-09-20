@@ -1,0 +1,32 @@
+package com.openske.rules;
+
+/**
+ * Assets Rules
+ */
+
+import com.openske.model.hardware.Host;
+import com.openske.model.assets.Asset;
+import com.openske.model.software.Software;
+import com.openske.model.security.SecurityState;
+
+rule "Mark assets that are surrounded by vulnerable software as risky"
+    when
+        # Match any asset
+        $asset : Asset()
+        and
+        exists(
+            # Match any risky software on the same asset host
+            Software( host == $asset.host , securityState == SecurityState.RISKY )
+            or
+            (
+                # Match any host that is connected to the asset host
+                $connectedHost : Host( connections contains $asset.host )
+                and
+                # Match any risky software on the connected host
+                Software( host == $connectedHost , securityState == SecurityState.RISKY )
+            )
+        )
+    then
+        System.out.println("[ASSETS] Setting asset " + $asset.getName() + " to risky");
+        $asset.setSecurityState(SecurityState.RISKY);
+end

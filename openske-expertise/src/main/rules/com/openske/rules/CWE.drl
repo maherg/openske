@@ -1,0 +1,14 @@
+package com.openske.attacks
+
+import com.openske.model.software.Weakness;
+import com.openske.model.attacks.AttackPattern;
+import com.openske.engine.Engine;
+
+rule "CWE-20 : Improper Input Validation"
+    when
+        $weakness : Weakness( identifier in ("CWE-285") )
+    then
+        # Insert the CAPEC-1
+        System.out.println("[CAPEC] Inserting CAPEC-1");
+        insert( new AttackPattern( "CAPEC-1" ) );
+end
