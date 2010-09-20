@@ -5,7 +5,7 @@ import java.util.List;
 public class Weakness {
     
     protected String identifier;
-    protected List<Vulnerability> vulnerabilities;
+    protected Vulnerability vulnerability;
     
     public static List<Weakness> forVulnerability(Vulnerability vuln) {
         return null;
@@ -19,11 +19,11 @@ public class Weakness {
         this.identifier = identifier;
     }
 
-    public List<Vulnerability> getVulnerabilities() {
-        return vulnerabilities;
+    public Vulnerability getVulnerability() {
+        return vulnerability;
     }
 
-    public void setVulnerabilities(List<Vulnerability> vulnerabilities) {
-        this.vulnerabilities = vulnerabilities;
+    public void setVulnerability(Vulnerability vulnerability) {
+        this.vulnerability = vulnerability;
     }
 }

@@ -34,7 +34,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/rules</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
     </build>

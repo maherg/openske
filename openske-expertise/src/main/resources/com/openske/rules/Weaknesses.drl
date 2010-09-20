@@ -1,4 +1,4 @@
-package com.openske.rules.software;
+package com.openske.rules;
 
 import com.openske.model.software.Vulnerability;
 import com.openske.model.software.Weakness;
@@ -6,7 +6,7 @@ import com.openske.engine.Engine;
 
 rule "Declare the corresponding weaknesses for the found vulnerabilities"
     when
-        $vuln : Vulnerability( occurrences.size > 0 )
+        $vuln : Vulnerability()
     then
         Engine.insertFacts(Weakness.forVulnerability($vuln));
 end

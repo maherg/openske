@@ -1,16 +1,20 @@
 package com.openske.model.attacks;
 
-import java.util.List;
-
-import com.openske.model.software.Vulnerability;
 import com.openske.model.software.Weakness;
 
 public class AttackPattern {
 
     protected String identifier;
     protected String description;
-    protected List<Weakness> weaknesses;
-    protected List<Vulnerability> vulnerabilities;
+    protected Weakness weakness;
+    protected AttackPatternState state;
+    
+    public AttackPattern(String identifier, Weakness weakness) {
+        this.identifier = identifier;
+        this.weakness = weakness;
+        this.state = AttackPatternState.READY;
+        // TODO : Collect additional information from the CAPEC data-set
+    }
 
     public String getIdentifier() {
         return identifier;
@@ -28,20 +32,21 @@ public class AttackPattern {
         this.description = description;
     }
 
-    public List<Weakness> getWeaknesses() {
-        return weaknesses;
+    public AttackPatternState getState() {
+        return state;
     }
 
-    public void setWeaknesses(List<Weakness> weaknesses) {
-        this.weaknesses = weaknesses;
+    public void setState(AttackPatternState state) {
+        this.state = state;
+    }
+    
+    public Weakness getWeakness() {
+        return weakness;
     }
 
-    public List<Vulnerability> getVulnerabilities() {
-        return vulnerabilities;
+    public void setWeakness(Weakness weakness) {
+        this.weakness = weakness;
     }
 
-    public void setVulnerabilities(List<Vulnerability> vulnerabilities) {
-        this.vulnerabilities = vulnerabilities;
-    }
 
 }

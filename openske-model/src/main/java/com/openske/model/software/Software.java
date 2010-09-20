@@ -67,7 +67,7 @@ public class Software {
     public void addVulnerability(Vulnerability vuln) {
         if (vuln != null && !this.vulnerabilities.contains(vuln)) {
             this.vulnerabilities.add(vuln);
-            vuln.addOccurrence(this);
+            vuln.setSoftware(this);
         }
     }
 

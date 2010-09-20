@@ -1,0 +1,11 @@
+package com.openske.rules;
+
+import com.openske.model.software.Weakness;
+import com.openske.model.attacks.AttackPattern;
+
+rule "CAPEC-7 Detected : Blind SQL Injection"
+    when
+        $weakness : Weakness( identifier in ("CWE-285") )
+    then
+        insert( new AttackPattern( "CAPEC-1" , $weakness ) );
+end

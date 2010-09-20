@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="flow" id="SQLInjection" package-name="com.openske.flowcharts.attacks" >
+
+  <header>
+    <imports>
+      <import name="com.openske.model.attacks.AttackPattern" />
+    </imports>
+  </header>
+
+  <nodes>
+    <start id="1" name="Start" x="96" y="16" width="155" height="40" />
+    <end id="2" name="End" x="96" y="376" width="155" height="40" />
+    <ruleSet id="3" name="CAPEC-7" x="96" y="88" width="155" height="40" ruleFlowGroup="CAPEC-7" />
+    <actionNode id="4" name="CAPEC-7 Successful" x="16" y="232" width="136" height="40" >
+        <action type="expression" dialect="mvel" >System.out.println("CAPEC-7 Successful");</action>
+    </actionNode>
+    <split id="5" name="Is CAPEC-7 successful ?" x="96" y="160" width="155" height="40" type="2" >
+      <constraints>
+        <constraint toNodeId="6" toType="DROOLS_DEFAULT" name="no" priority="1" type="rule" dialect="mvel" >AttackPattern( identifier == "CAPEC-7", successful != true )</constraint>
+        <constraint toNodeId="4" toType="DROOLS_DEFAULT" name="yes" priority="1" type="rule" dialect="mvel" >AttackPattern( identifier == "CAPEC-7", successful == true )</constraint>
+      </constraints>
+    </split>
+    <actionNode id="6" name="CAPEC-7 Unsuccessful" x="184" y="232" width="156" height="40" >
+        <action type="expression" dialect="mvel" >System.out.println("CAPEC-7 Unsuccessful");</action>
+    </actionNode>
+    <join id="7" name="Join CAPEC-7's Result" x="111" y="304" width="125" height="40" type="2" />
+  </nodes>
+
+  <connections>
+    <connection from="7" to="2" />
+    <connection from="1" to="3" />
+    <connection from="5" to="4" />
+    <connection from="3" to="5" />
+    <connection from="5" to="6" />
+    <connection from="4" to="7" />
+    <connection from="6" to="7" />
+  </connections>
+
+</process>
