@@ -12,6 +12,7 @@ import org.drools.builder.ResourceType;
 import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
 import org.drools.logger.KnowledgeRuntimeLogger;
+import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 
 import com.openske.model.hardware.Host;
@@ -19,7 +20,6 @@ import com.openske.model.hardware.Router;
 
 public class DroolsFacade {
 
-    protected KnowledgeBuilder knowledgeBuilder;
     protected KnowledgeBase knowledgeBase;
     protected PrintWriter outputWriter;
     protected StatefulKnowledgeSession session;
@@ -29,7 +29,6 @@ public class DroolsFacade {
     public void initialize() {
         if (!isInitialized()) {
             outputWriter.format("Initializing Drools Knowledge Base...");
-            knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
             knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
             initialized = true;
         }
@@ -41,6 +40,7 @@ public class DroolsFacade {
             Collection<File> drlFiles = DroolsResourceHelper.listResources(ResourceType.DRL);
             outputWriter.format("Loading %d rules...", drlFiles.size());
             // Load the found DRL files into the KnowledgeBuilder
+            KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
             for (File drl : drlFiles) {
                 outputWriter.format("\t - Loading '%s' ...", drl.getPath());
                 knowledgeBuilder.add(ResourceFactory.newFileResource(drl.getAbsolutePath()), ResourceType.DRL);
@@ -86,11 +86,15 @@ public class DroolsFacade {
             // before starting them
             Collection<File> rfFiles = DroolsResourceHelper.listResources(ResourceType.DRF);
             outputWriter.format("Loading %d processes...", rfFiles.size());
-            knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+            KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
             for (File rf : rfFiles) {
                 knowledgeBuilder.add(ResourceFactory.newFileResource(rf), ResourceType.DRF);
-                knowledgeBase.addKnowledgePackages(knowledgeBuilder.getKnowledgePackages());
+                if(knowledgeBuilder.hasErrors()) {
+                    outputWriter.format(knowledgeBuilder.getErrors().toString());
+                    throw new RuntimeException("Found errors in DRF file : " + rf);
+                }
             }
+            knowledgeBase.addKnowledgePackages(knowledgeBuilder.getKnowledgePackages());
         } else {
             // TODO : Handle calling this method without being initialized
         }
@@ -141,7 +145,7 @@ public class DroolsFacade {
         if (session == null) {
             session = knowledgeBase.newStatefulKnowledgeSession();
             outputWriter.format("Opened new Drools session (%s)", session.toString());
-            // logger = KnowledgeRuntimeLoggerFactory.newConsoleLogger(session);
+            logger = KnowledgeRuntimeLoggerFactory.newFileLogger(session, "openske");
             DroolsEventListener eventListener = new DroolsEventListener();
             eventListener.setOutputWriter(outputWriter);
             session.addEventListener(eventListener);
