@@ -16,12 +16,13 @@
 	<module>openske-expertise</module>
     <module>openske-console</module>
     <module>maven-openske-plugin</module>
+    <module>openske-datasets</module>
   </modules>
 
     <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<!-- Drools -->
-	<drools.version>5.0.1</drools.version>
+	<drools.version>5.1.1</drools.version>
     </properties>
 
     <repositories>
