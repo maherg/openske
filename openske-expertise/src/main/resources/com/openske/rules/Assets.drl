@@ -9,24 +9,30 @@ import com.openske.model.assets.Asset;
 import com.openske.model.software.Software;
 import com.openske.model.security.SecurityState;
 
-rule "Mark assets that are surrounded by vulnerable software as risky"
+rule "Print assets that have become risky"
+    when
+        $asset : Asset( securityState == SecurityState.RISKY )
+    then
+        System.out.println("[ASSETS] Asset '" + $asset.getName() + "' has become risky !");
+end
+
+rule "Mark assets that are surrounded by risky software as risky"
     when
         # Match any asset
         $asset : Asset()
         and
         exists(
             # Match any risky software on the same asset host
-            Software( host == $asset.host , securityState == SecurityState.RISKY )
+            $software : Software( host == $asset.host , securityState == SecurityState.RISKY )
             or
             (
                 # Match any host that is connected to the asset host
-                $connectedHost : Host( connections contains $asset.host )
+                $neighbor : Host( connections contains $asset.host )
                 and
                 # Match any risky software on the connected host
-                Software( host == $connectedHost , securityState == SecurityState.RISKY )
+                $software : Software( host == $neighbor , securityState == SecurityState.RISKY )
             )
         )
     then
-        System.out.println("[ASSETS] Setting asset " + $asset.getName() + " to risky");
         $asset.setSecurityState(SecurityState.RISKY);
 end

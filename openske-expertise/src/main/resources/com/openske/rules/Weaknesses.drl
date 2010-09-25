@@ -6,7 +6,7 @@ import com.openske.engine.Engine;
 
 rule "Declare the corresponding weaknesses for the found vulnerabilities"
     when
-        $vuln : Vulnerability()
+        $vuln : Vulnerability( )
     then
-        Engine.insertFacts(Weakness.forVulnerability($vuln));
+        insert(Weakness.forVulnerability($vuln));
 end

@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.openske.drools.DroolsFacade;
-
 /**
  * OpenSKE's Engine
  * 
@@ -50,7 +49,7 @@ public class Engine {
                 drools.fireRules();
                 long endTime = System.currentTimeMillis();
                 this.runningTime = endTime - startTime;
-                outputWriter.format("Engine took %d seconds !", this.getRunningTime());
+                outputWriter.format("Engine took %.2f seconds !", this.getRunningTime());
             } catch (Throwable t) {
                 t.printStackTrace(outputWriter);
                 this.stop();
@@ -89,9 +88,9 @@ public class Engine {
         drools.setOutputWriter(outputWriter);
     }
 
-    public long getRunningTime() {
-        if(this.isStarted()) {
-            return runningTime / 1000L;
+    public float getRunningTime() {
+        if (this.isStarted()) {
+            return (float) ((float) runningTime / 1000.0);
         } else {
             return 0L;
         }
