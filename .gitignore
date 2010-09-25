@@ -6,3 +6,4 @@ target
 .settings
 *-yuml.png
 *.log
+.hg*
