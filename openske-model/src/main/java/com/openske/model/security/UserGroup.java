@@ -1,24 +1,24 @@
-package com.openske.model.security.unix;
+package com.openske.model.security;
 
 import java.util.List;
 
 import com.openske.model.hardware.Host;
 
-public class UnixGroup {
+public class UserGroup {
 
     protected String name;
     protected Host host;
-    protected List<UnixAccount> accounts;
+    protected List<UserAccount> accounts;
     
-    public UnixGroup(Host host) {
+    public UserGroup(Host host) {
         this.host = host;
     }
 
-    public List<UnixAccount> getAccounts() {
+    public List<UserAccount> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<UnixAccount> accounts) {
+    public void setAccounts(List<UserAccount> accounts) {
         this.accounts = accounts;
     }
 

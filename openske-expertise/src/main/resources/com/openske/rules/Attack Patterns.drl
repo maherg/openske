@@ -1,0 +1,24 @@
+package com.openske.rules;
+
+import com.openske.model.software.*;
+import com.openske.model.attacks.*;
+
+rule "CAPEC-7 Detection : Blind SQL Injection"
+    ruleflow-group "CAPEC-7"
+    when
+        $vuln : Weakness( identifier in ("CWE-20", "CWE-89", "CWE-209", "CWE-74", "CWE-240") )
+    then
+        System.out.println("CAPEC-7 detected, inserting fact into knowledge base");
+        insert( new AttackPattern( "CAPEC-7" , null ) );
+end
+
+rule "CAPEC-7 Execution : Blind SQL Injection"
+    ruleflow-group "CAPEC-7"
+    when
+        # Detect the pattern is ready to be executed
+        $pattern : AttackPattern( identifier == "CAPEC-7" , state == AttackPatternState.READY ) 
+    then
+        # Marking the pattern as successful for now
+        $pattern.setState(AttackPatternState.SUCCESSFUL);
+        System.out.println("CAPEC-7 execution has been successful");
+end
