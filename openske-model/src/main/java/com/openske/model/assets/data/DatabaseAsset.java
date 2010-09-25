@@ -7,7 +7,7 @@ import com.openske.model.hardware.Host;
 public class DatabaseAsset extends Asset {
 
     protected String databaseName;
-    
+
     public DatabaseAsset(String name, Host host, String databaseName) {
         this(name, host, databaseName, AssetScope.INTERNET);
     }
@@ -24,5 +24,5 @@ public class DatabaseAsset extends Asset {
     public void setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
     }
-    
+
 }

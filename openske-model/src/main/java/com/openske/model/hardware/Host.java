@@ -16,7 +16,7 @@ public class Host extends Connectable {
     public Host(String address) {
         super(address);
         this.assets = new ArrayList<Asset>();
-        // TODO : Pull the softwares into Connectable since we may 
+        // TODO : Pull the softwares into Connectable since we may
         // have other hardware devices which we would like to describe
         // their installed software packages
         this.softwares = new ArrayList<Software>();

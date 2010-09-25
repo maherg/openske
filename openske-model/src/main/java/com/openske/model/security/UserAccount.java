@@ -3,9 +3,10 @@ package com.openske.model.security;
 import java.util.List;
 
 import com.openske.model.assets.Asset;
+import com.openske.model.assets.AssetAccessor;
 import com.openske.model.hardware.Host;
 
-public class UserAccount {
+public class UserAccount implements AssetAccessor {
 
     protected User user;
     protected Host host;

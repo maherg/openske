@@ -6,7 +6,7 @@ import java.util.List;
 public abstract class Connectable {
 
     protected String address;
-    
+
     protected List<Connectable> connections;
 
     protected Connectable(String address) {

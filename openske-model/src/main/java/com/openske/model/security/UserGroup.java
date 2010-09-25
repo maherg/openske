@@ -2,14 +2,15 @@ package com.openske.model.security;
 
 import java.util.List;
 
+import com.openske.model.assets.AssetAccessor;
 import com.openske.model.hardware.Host;
 
-public class UserGroup {
+public class UserGroup implements AssetAccessor {
 
     protected String name;
     protected Host host;
     protected List<UserAccount> accounts;
-    
+
     public UserGroup(Host host) {
         this.host = host;
     }

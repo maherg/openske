@@ -8,7 +8,7 @@ public class AttackPattern {
     protected String description;
     protected Weakness weakness;
     protected AttackPatternState state;
-    
+
     public AttackPattern(String identifier, Weakness weakness) {
         this.identifier = identifier;
         this.weakness = weakness;
@@ -39,7 +39,7 @@ public class AttackPattern {
     public void setState(AttackPatternState state) {
         this.state = state;
     }
-    
+
     public Weakness getWeakness() {
         return weakness;
     }
@@ -47,6 +47,5 @@ public class AttackPattern {
     public void setWeakness(Weakness weakness) {
         this.weakness = weakness;
     }
-
 
 }

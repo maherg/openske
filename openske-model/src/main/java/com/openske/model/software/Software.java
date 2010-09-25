@@ -3,20 +3,20 @@ package com.openske.model.software;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.openske.model.assets.AssetAccessor;
 import com.openske.model.hardware.Host;
 import com.openske.model.security.SecurityState;
 
-public class Software {
+public class Software implements AssetAccessor {
 
+    protected String name;
+    protected String version;
+    protected SoftwareScope scope;
     protected List<Software> dependencies;
     protected Host host;
-    protected String name;
     protected SecurityState securityState;
-    protected String version;
     protected List<Vulnerability> vulnerabilities;
-    protected SoftwareScope scope;
-    
-    
+
     public Software(String name, String version) {
         this(name, version, null);
     }
@@ -39,15 +39,15 @@ public class Software {
         }
         return this;
     }
-    
+
     public Software addVulnerabilities(String... identifiers) {
-        if(identifiers != null && identifiers.length > 0) {
-            for(String id : identifiers) {
+        if (identifiers != null && identifiers.length > 0) {
+            for (String id : identifiers) {
                 this.addVulnerability(id);
             }
         }
         return this;
-        
+
     }
 
     public List<Software> getDependencies() {
