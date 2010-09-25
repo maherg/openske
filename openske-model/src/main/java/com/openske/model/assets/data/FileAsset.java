@@ -9,10 +9,10 @@ public class FileAsset extends Asset {
     protected String filepath;
 
     public FileAsset(String name, Host host, String filepath) {
-        this(name, host, AssetScope.INTERNET, filepath);
+        this(name, host, filepath, AssetScope.INTERNET);
     }
 
-    public FileAsset(String name, Host host, AssetScope scope, String filepath) {
+    public FileAsset(String name, Host host, String filepath, AssetScope scope) {
         super(name, host, scope);
         this.filepath = filepath;
     }

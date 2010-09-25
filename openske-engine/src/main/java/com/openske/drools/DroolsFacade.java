@@ -15,8 +15,13 @@ import org.drools.logger.KnowledgeRuntimeLogger;
 import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 
+import com.openske.model.assets.AssetScope;
+import com.openske.model.assets.data.DatabaseAsset;
+import com.openske.model.assets.data.FileAsset;
+import com.openske.model.assets.services.ServiceAsset;
 import com.openske.model.hardware.Host;
 import com.openske.model.hardware.Router;
+import com.openske.model.software.Software;
 
 public class DroolsFacade {
 
@@ -63,18 +68,43 @@ public class DroolsFacade {
 
     public void loadFacts() {
         if (isInitialized()) {
-            Host webServer = new Host("webserver.intranet");
-            Host dbServer = new Host("database.intranet");
-            Host station1 = new Host("station1.intranet");
-            Host station2 = new Host("station2.intranet");
-            Host emptyHost = new Host("");
-            Router router = new Router("router.intranet");
-            router.addConnection(webServer);
-            router.addConnection(dbServer);
+            // Hosts
+            Host webHost = new Host("web.proggy");
+            Host dbHost = new Host("database.proggy");
+            Host station1 = new Host("station1.proggy");
+            Host station2 = new Host("station2.proggy");
+            Router router = new Router("router.proggy");
+            // Connections
+            router.addConnection(webHost);
+            router.addConnection(dbHost);
             router.addConnection(station1);
             router.addConnection(station2);
-            getSession().insert(emptyHost);
-            // getSession().insert(router);
+            // Software
+            Software phpMyAdmin = new Software("phpmyadmin", "2.1", webHost).addVulnerability("CVE-2008-2223");
+            Software apache = new Software("apache", "2.2", webHost);
+            Software mysql = new Software("mysql", "4.1", dbHost).addVulnerability("CVE-2003-1480");
+            webHost.addSoftware(apache);
+            webHost.addSoftware(phpMyAdmin);
+            dbHost.addSoftware(mysql);
+            // Assets
+            ServiceAsset proggyBookWeb = new ServiceAsset("ProggyBook Web", webHost, 80, AssetScope.CLASSIFIED);
+            DatabaseAsset proggyBookDatabase = new DatabaseAsset("ProggyBook Database", dbHost, "proggybook", AssetScope.INTERNET);
+            FileAsset proggyBookDesign = new FileAsset("ProggyBook Design", station1, "/home/proggy/design.txt", AssetScope.CLASSIFIED);
+            dbHost.addAsset(proggyBookDatabase);
+            webHost.addAsset(proggyBookWeb);
+            station1.addAsset(proggyBookDesign);
+            // Insertion
+            getSession().insert(router);
+            getSession().insert(webHost);
+            getSession().insert(dbHost);
+            getSession().insert(station1);
+            getSession().insert(station2);
+            getSession().insert(phpMyAdmin);
+            getSession().insert(apache);
+            getSession().insert(mysql);
+            getSession().insert(proggyBookWeb);
+            getSession().insert(proggyBookDatabase);
+            getSession().insert(proggyBookDesign);
         } else {
             // TODO : Handle calling this method without being initialized
         }
@@ -82,8 +112,6 @@ public class DroolsFacade {
 
     public void loadProcesses() {
         if (isInitialized()) {
-            // TODO : Load all the processes into the knowledgeBuilder first
-            // before starting them
             Collection<File> rfFiles = DroolsResourceHelper.listResources(ResourceType.DRF);
             outputWriter.format("Loading %d processes...", rfFiles.size());
             KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -117,7 +145,6 @@ public class DroolsFacade {
             for (File rf : rfFiles) {
                 String processId = DroolsRuleFlowHelper.extractRuleFlowId(rf);
                 if (processId != null) {
-                    outputWriter.format("\t - Starting process '%s'...", processId);
                     getSession().startProcess(processId);
                 }
             }
@@ -145,10 +172,13 @@ public class DroolsFacade {
         if (session == null) {
             session = knowledgeBase.newStatefulKnowledgeSession();
             outputWriter.format("Opened new Drools session (%s)", session.toString());
-            logger = KnowledgeRuntimeLoggerFactory.newFileLogger(session, "openske");
-            DroolsEventListener eventListener = new DroolsEventListener();
-            eventListener.setOutputWriter(outputWriter);
-            session.addEventListener(eventListener);
+            logger = KnowledgeRuntimeLoggerFactory.newThreadedFileLogger(session, "openske", 1);
+            DroolsAgendaEventListener agendaListener = new DroolsAgendaEventListener();
+            DroolsProcessEventListener processListener = new DroolsProcessEventListener(); 
+            agendaListener.setOutputWriter(outputWriter);
+            processListener.setOutputWriter(outputWriter);
+            session.addEventListener(agendaListener);
+            session.addEventListener(processListener);
         }
         return session;
     }

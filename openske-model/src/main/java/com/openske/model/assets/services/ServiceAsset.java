@@ -6,22 +6,22 @@ import com.openske.model.hardware.Host;
 
 public class ServiceAsset extends Asset {
 
-    protected Long port;
+    protected int port;
 
-    public ServiceAsset(String name, Host host, Long port) {
-        this(name, host, AssetScope.INTERNET, port);
+    public ServiceAsset(String name, Host host, int port) {
+        this(name, host, port, AssetScope.INTERNET);
     }
 
-    public ServiceAsset(String name, Host host, AssetScope scope, Long port) {
+    public ServiceAsset(String name, Host host, int port, AssetScope scope) {
         super(name, host, scope);
         this.port = port;
     }
 
-    public Long getPort() {
+    public int getPort() {
         return port;
     }
 
-    public void setPort(Long port) {
+    public void setPort(int port) {
         this.port = port;
     }
 }

@@ -6,9 +6,15 @@ public class Weakness {
     
     protected String identifier;
     protected Vulnerability vulnerability;
+    protected Software software;
     
     public static List<Weakness> forVulnerability(Vulnerability vuln) {
         return null;
+    }
+    
+    public Weakness(Vulnerability vuln) {
+        this.vulnerability = vuln;
+        this.software = vuln.getSoftware();
     }
 
     public String getIdentifier() {
