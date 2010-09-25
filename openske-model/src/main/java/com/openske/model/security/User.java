@@ -2,13 +2,12 @@ package com.openske.model.security;
 
 import java.util.List;
 
-import com.openske.model.security.unix.UnixAccount;
 
 public class User {
     
     protected String fullName;
     protected String email;
-    protected List<UnixAccount> accounts;
+    protected List<UserAccount> accounts;
     
     public String getFullName() {
         return fullName;
@@ -22,10 +21,10 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public List<UnixAccount> getAccounts() {
+    public List<UserAccount> getAccounts() {
         return accounts;
     }
-    public void setAccounts(List<UnixAccount> accounts) {
+    public void setAccounts(List<UserAccount> accounts) {
         this.accounts = accounts;
     }
 }
