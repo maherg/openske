@@ -11,7 +11,7 @@
   <artifactId>maven-openske-plugin</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>maven-openske-plugin Maven Mojo</name>
+  <name>OpenSKE : Maven Plugin</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
