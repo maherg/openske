@@ -44,8 +44,9 @@ public class Engine {
                 drools.initialize();
                 drools.loadRules();
                 drools.loadFacts();
-                drools.loadProcesses();
-                drools.startProcesses();
+                // Disabling the process running for now
+                // drools.loadProcesses();
+                // drools.startProcesses();
                 drools.fireRules();
                 long endTime = System.currentTimeMillis();
                 this.runningTime = endTime - startTime;
