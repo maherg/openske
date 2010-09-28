@@ -1,7 +1,7 @@
 package com.openske.model.assets.data;
 
 import com.openske.model.assets.Asset;
-import com.openske.model.assets.AssetScope;
+import com.openske.model.assets.AssetType;
 import com.openske.model.hardware.Host;
 
 public class FileAsset extends Asset {
@@ -9,11 +9,7 @@ public class FileAsset extends Asset {
     protected String filepath;
 
     public FileAsset(String name, Host host, String filepath) {
-        this(name, host, filepath, AssetScope.INTERNET);
-    }
-
-    public FileAsset(String name, Host host, String filepath, AssetScope scope) {
-        super(name, host, scope);
+        super(name, host, AssetType.FILE);
         this.filepath = filepath;
     }
 

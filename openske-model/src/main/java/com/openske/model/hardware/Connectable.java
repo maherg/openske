@@ -37,6 +37,18 @@ public abstract class Connectable {
     public void setConnections(List<Connectable> connections) {
         this.connections = connections;
     }
+    
+    public boolean canReach(Host target) {
+        if(this.connections.contains(target)) {
+            return true;
+        }
+        for(Connectable neighbor : this.connections) {
+            if(neighbor.canReach(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String getAddress() {
         return address;

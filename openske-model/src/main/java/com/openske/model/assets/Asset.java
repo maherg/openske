@@ -6,18 +6,14 @@ import com.openske.model.security.SecurityState;
 public class Asset {
 
     protected String name;
-    protected AssetScope scope;
     protected Host host;
     protected SecurityState securityState;
+    protected AssetType type;
 
-    protected Asset(String name, Host host) {
-        this(name, host, AssetScope.INTERNET);
-    }
-
-    protected Asset(String name, Host host, AssetScope scope) {
+    protected Asset(String name, Host host, AssetType type) {
         this.name = name;
         this.host = host;
-        this.scope = scope;
+        this.type = type;
     }
 
     public String getName() {
@@ -26,14 +22,6 @@ public class Asset {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AssetScope getScope() {
-        return scope;
-    }
-
-    public void setScope(AssetScope scope) {
-        this.scope = scope;
     }
 
     public Host getHost() {
@@ -50,5 +38,13 @@ public class Asset {
 
     public void setSecurityState(SecurityState securityState) {
         this.securityState = securityState;
+    }
+
+    public AssetType getType() {
+        return type;
+    }
+
+    public void setType(AssetType type) {
+        this.type = type;
     }
 }

@@ -1,40 +1,30 @@
 package com.openske.model.security;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.openske.model.assets.Asset;
 import com.openske.model.assets.AssetAccessor;
-import com.openske.model.hardware.Host;
+import com.openske.model.software.Software;
 
 public class UserAccount implements AssetAccessor {
 
-    protected User user;
-    protected Host host;
+    protected Software software;
     protected String username;
+    protected String password;
     protected List<UserGroup> groups;
     protected UserAccountState state;
     protected List<Asset> assets;
 
-    public UserAccount(User user, Host host) {
+    public UserAccount(String username, String password, Software software) {
         super();
-        this.user = user;
-        this.host = host;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Host getHost() {
-        return host;
-    }
-
-    public void setHost(Host host) {
-        this.host = host;
+        this.username = username;
+        this.password = password;
+        this.software = software;
+        this.state = UserAccountState.ACTIVE;
+        this.assets = new ArrayList<Asset>();
+        this.groups = new ArrayList<UserGroup>();
+        this.software.addAccount(this);
     }
 
     public List<UserGroup> getGroups() {
@@ -67,5 +57,21 @@ public class UserAccount implements AssetAccessor {
 
     public void setAssets(List<Asset> assets) {
         this.assets = assets;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Software getSoftware() {
+        return software;
+    }
+
+    public void setSoftware(Software software) {
+        this.software = software;
     }
 }

@@ -32,4 +32,12 @@ public class Weakness {
     public void setVulnerability(Vulnerability vulnerability) {
         this.vulnerability = vulnerability;
     }
+
+    public Software getSoftware() {
+        return software;
+    }
+
+    public void setSoftware(Software software) {
+        this.software = software;
+    }
 }

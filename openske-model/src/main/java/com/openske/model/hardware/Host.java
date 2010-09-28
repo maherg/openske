@@ -47,7 +47,7 @@ public class Host extends Connectable {
     }
 
     public Host addSoftware(String name, String version) {
-        return this.addSoftware(new Software(name, version, this));
+        return this.addSoftware(new Software(null, name, version, this));
     }
 
     public List<Software> getSoftwares() {
