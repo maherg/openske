@@ -9,12 +9,8 @@ import com.openske.model.assets.Asset;
 import com.openske.model.software.Software;
 import com.openske.model.security.SecurityState;
 
-rule "Print assets that have become risky"
-    when
-        $asset : Asset( securityState == SecurityState.RISKY )
-    then
-        System.out.println("[ASSETS] Asset '" + $asset.getName() + "' has become risky !");
-end
+global java.io.PrintWriter output;
+
 
 rule "Mark assets that are surrounded by risky software as risky"
     when
