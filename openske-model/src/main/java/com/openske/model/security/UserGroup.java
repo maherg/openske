@@ -3,16 +3,16 @@ package com.openske.model.security;
 import java.util.List;
 
 import com.openske.model.assets.AssetAccessor;
-import com.openske.model.hardware.Host;
+import com.openske.model.software.Software;
 
 public class UserGroup implements AssetAccessor {
 
     protected String name;
-    protected Host host;
+    protected Software software;
     protected List<UserAccount> accounts;
 
-    public UserGroup(Host host) {
-        this.host = host;
+    public UserGroup(Software software) {
+        this.software = software;
     }
 
     public List<UserAccount> getAccounts() {
@@ -29,13 +29,5 @@ public class UserGroup implements AssetAccessor {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Host getHost() {
-        return host;
-    }
-
-    public void setHost(Host host) {
-        this.host = host;
     }
 }

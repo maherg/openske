@@ -9,9 +9,9 @@ import com.openske.model.software.Software;
 
 public class UserAccount implements AssetAccessor {
 
-    protected Software software;
     protected String username;
     protected String password;
+    protected Software software;
     protected List<UserGroup> groups;
     protected UserAccountState state;
     protected List<Asset> assets;
