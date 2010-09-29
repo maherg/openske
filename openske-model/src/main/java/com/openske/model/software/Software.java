@@ -15,16 +15,16 @@ import com.openske.model.security.UserGroup;
 
 public class Software implements AssetAccessor {
 
-    protected List<UserAccount> accounts;
+    protected Host host;
+    protected String name;
+    protected String vendor;
+    protected String version;
     protected boolean anAsset;
+    protected SecurityState securityState;
+    protected List<UserAccount> accounts;
     protected List<AssetAccess> assetAccesses;
     protected List<Software> dependencies;
     protected List<UserGroup> groups;
-    protected Host host;
-    protected String name;
-    protected SecurityState securityState;
-    protected String vendor;
-    protected String version;
     protected List<Vulnerability> vulnerabilities;
     protected List<Weakness> weaknesses;
 

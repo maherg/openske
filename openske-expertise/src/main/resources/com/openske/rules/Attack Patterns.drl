@@ -18,8 +18,8 @@ rule "CAPEC-1 : Accessing Functionality Not Properly Constrained by ACLs"
         # We have a software that the attacker may target
         $software : Software( $softwareHost : host )
         # The software contains at least one of the listed weaknesses
-        # exists( Weakness( software == $software , identifier in ("CWE-285", "CWE-732", "CWE-276",
-        #                                                         "CWE-693", "CWE-721", "CWE-434") ) )
+        exists( Weakness( software == $software , identifier in ("CWE-285", "CWE-732", "CWE-276",
+                                                                 "CWE-693", "CWE-721", "CWE-434") ) )
         # Attacker has an account on this software
         exists( UserAccount( software == $software , state == UserAccountState.ACTIVE ) from $attacker.accounts )
         # The attacker can access this software ( through the host connections )
@@ -87,7 +87,7 @@ rule "CAPEC-16 : Dictionary-based Password Attack"
         # We have an installed and running software
         $software : Software( $softwareHost : host , accounts.size > 0 )
         # The software contains at least one of the listed weaknesses
-        # exists( Weakness( software == $software , identifier in ("CWE-521", "CWE-262", "CWE-263", "CWE-693") ) )
+        exists( Weakness( software == $software , identifier in ("CWE-521", "CWE-262", "CWE-263", "CWE-693") ) )
         # The attacker doesn't have an account on this software
         not( exists( UserAccount( software == $software , state == UserAccountState.ACTIVE ) from $attacker.accounts ) )
         # The attacker can access this software ( through the host connections )
