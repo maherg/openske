@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.openske.model.assets.Asset;
 import com.openske.model.assets.AssetAccess;
+import com.openske.model.assets.AssetAccessType;
 import com.openske.model.assets.AssetAccessor;
 import com.openske.model.assets.AssetType;
 import com.openske.model.hardware.Host;
@@ -38,6 +39,7 @@ public class Software implements AssetAccessor {
         this.dependencies = new ArrayList<Software>();
         this.accounts = new ArrayList<UserAccount>();
         this.groups = new ArrayList<UserGroup>();
+        this.assetAccesses = new ArrayList<AssetAccess>();
         this.securityState = SecurityState.UNKNOWN;
     }
 
@@ -45,7 +47,7 @@ public class Software implements AssetAccessor {
         UserAccount account = new UserAccount(username, password, this);
         return this.addAccount(account);
     }
-    
+
     public Software addAccount(UserAccount account) {
         if (!this.accounts.contains(account)) {
             this.accounts.add(account);
@@ -69,6 +71,19 @@ public class Software implements AssetAccessor {
             this.vulnerabilities.add(vuln);
             vuln.setSoftware(this);
             this.addWeaknesses(Weakness.forVulnerability(vuln));
+        }
+        return this;
+    }
+
+    public Software addWeakness(String identifier) {
+        return this.addWeakness(new Weakness(identifier, this));
+
+    }
+
+    public Software addWeakness(Weakness weakness) {
+        if (weakness != null && this.hasWeakness(weakness)) {
+            this.weaknesses.add(weakness);
+            weakness.setSoftware(this);
         }
         return this;
     }
@@ -117,6 +132,14 @@ public class Software implements AssetAccessor {
         }
     }
 
+    public Software addAssetAccess(Asset asset, AssetAccessType type) {
+        AssetAccess access = new AssetAccess(asset, this, type);
+        if (!this.assetAccesses.contains(access)) {
+            this.assetAccesses.add(access);
+        }
+        return this;
+    }
+
     public Asset getRandomAsset(AssetType type) {
         if (this.assetAccesses.isEmpty()) {
             return null;
@@ -158,6 +181,10 @@ public class Software implements AssetAccessor {
 
     public boolean hasVulnerability(Vulnerability vuln) {
         return vuln != null && this.vulnerabilities.contains(vuln);
+    }
+
+    public boolean hasWeakness(Weakness weakness) {
+        return weakness != null && this.weaknesses.contains(weakness);
     }
 
     public boolean isAnAsset() {

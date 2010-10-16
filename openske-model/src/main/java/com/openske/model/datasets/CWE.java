@@ -1,17 +1,18 @@
 package com.openske.model.datasets;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.openske.model.software.Weakness;
 
 public class CWE {
     
-    public static List<Weakness> findByVulnerability(String cveId) {
-        List<Weakness> list = new ArrayList<Weakness>();
-        
-        
-        
-        return list;
+    public static List<String> findByVulnerability(String cveId) {
+        try {
+            DatasetQuery dquery = new DatasetQuery(Dataset.CWE);
+            List<String> cweIds = dquery.query("Weakness", cveId);
+            return cweIds;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

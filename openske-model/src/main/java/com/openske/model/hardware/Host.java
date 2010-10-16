@@ -8,8 +8,6 @@ import com.openske.model.software.Software;
 
 public class Host extends Connectable {
 
-    String identifier;
-
     protected List<Software> softwares;
     protected List<Asset> assets;
 
@@ -20,14 +18,6 @@ public class Host extends Connectable {
         // have other hardware devices which we would like to describe
         // their installed software packages
         this.softwares = new ArrayList<Software>();
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
 
     public Host addAsset(Asset asset) {

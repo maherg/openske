@@ -8,6 +8,10 @@ public class AttackPattern {
     protected String description;
     protected Weakness weakness;
     protected AttackPatternState state;
+    
+    public static AttackPattern forName(String capecId) {
+        return null;
+    }
 
     public AttackPattern(String identifier, Weakness weakness) {
         this.identifier = identifier;
