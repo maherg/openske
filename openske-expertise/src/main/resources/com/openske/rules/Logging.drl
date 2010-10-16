@@ -4,13 +4,14 @@ import com.openske.model.security.*;
 import com.openske.model.software.*;
 import com.openske.model.assets.*;
 
-global java.io.PrintWriter output;
+import function com.openske.engine.Engine.print;
+
 
 rule "Print assets that have become risky"
     when
         $asset : Asset( securityState == SecurityState.RISKY )
     then
-        output.format("[LOGGING] Asset '" + $asset.getName() + "' has become risky !");
+        print("[LOGGING] Asset '%s' has become risky !", $asset.getName());
 end
 
 
@@ -18,7 +19,7 @@ rule "Detect the presence of an attacker"
 	when
 		$attacker : User( attacker == true )
 	then 
-		output.format("[LOGGING] Attacker '%s' detected on host '%s'", $attacker.getFullName(), $attacker.getHost().getAddress()); 
+		print("[LOGGING] Attacker '%s' detected on host '%s'", $attacker.getFullName(), $attacker.getHost().getAddress()); 
 end
 
 
@@ -28,5 +29,5 @@ rule "Detect the reachability of an attacker ( if any )"
         $software : Software( $softwareHost : host )
         eval( $attackerHost.canReach($softwareHost) )
     then
-        output.format("[LOGGING] Attacker '%s' can reach software '%s'", $attacker.getFullName(), $software.toString());
+        print("[LOGGING] Attacker '%s' can reach software '%s'", $attacker.getFullName(), $software.toString());
 end

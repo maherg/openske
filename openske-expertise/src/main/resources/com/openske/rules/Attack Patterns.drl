@@ -8,45 +8,46 @@ import com.openske.model.attacks.*;
 import com.openske.model.security.*;
 import com.openske.model.hardware.*;
 
-global java.io.PrintWriter output;
+import function com.openske.engine.Engine.print;
 
 
 rule "CAPEC-1 : Accessing Functionality Not Properly Constrained by ACLs"
     when
         # We have an attacker
-        $attacker : User( attacker == true , $attackerHost : host )
+        $attacker : User( attacker == true)
         # We have a software that the attacker may target
-        $software : Software( $softwareHost : host )
+        $software : Software()
         # The software contains at least one of the listed weaknesses
         exists( Weakness( software == $software , identifier in ("CWE-285", "CWE-732", "CWE-276",
                                                                  "CWE-693", "CWE-721", "CWE-434") ) )
         # Attacker has an account on this software
-        exists( UserAccount( software == $software , state == UserAccountState.ACTIVE ) from $attacker.accounts )
+        exists( UserAccount( software == $software , state == UserAccountState.ACTIVE ) from $attacker.getAccounts() )
         # The attacker can access this software ( through the host connections )
-        eval( $attackerHost.canReach($softwareHost) )
+        eval( $attacker.getHost().canReach($software.getHost()) )
     then
-        output.format("[CAPEC-1] Attacker '%s' has gained un-authorized accessibility on software '%s'",
+        print("[CAPEC-1] Attacker '%s' can gain un-authorized accessibility on software '%s'",
                         $attacker.getFullName(),
                         $software.toString());
         # We can't predict what could be possibly done with this accessibility, TODO
 end
 
+
 rule "CAPEC-2 : Inducing Account Lockout"
     when
         # We have an attacker
-        $attacker : User( attacker == true , $attackerHost : host )
+        $attacker : User( attacker == true)
         # We have a software that the attacker may target
-        $software : Software( $softwareHost : host )
+        $software : Software()
         # The software contains at least one of the listed weaknesses
         exists( Weakness( software == $software , identifier in ("CWE-400") ) )
         # The software has any active user account
         $userAccount : UserAccount( software == $software , state == UserAccountState.ACTIVE )
         # The attacker can access this software ( through the host connections )
-        eval( $attackerHost.canReach($softwareHost) )
+        eval( $attacker.getHost().canReach($software.getHost()) )
     then
         # Account will be locked
         $userAccount.setState(UserAccountState.LOCKED);
-        output.format("[CAPEC-2] Attacker '%s' has attacked the user account '%s' on software '%s' and resulted in the account being locked", $attacker.getFullName(), $userAccount.getUsername(), $software.toString());
+        print("[CAPEC-2] Attacker '%s' has attacked the user account '%s' on software '%s' and resulted in the account being locked", $attacker.getFullName(), $userAccount.getUsername(), $software.toString());
 end
 
 
@@ -69,12 +70,12 @@ rule "CAPEC-7 : Blind SQL Injection"
         $attacker.addAssetAccess(
             new AssetAccess($software.getRandomAsset(AssetType.DATABASE),
                             $attacker,
-                            AssetAccessType.READ_WRITE_EXECUTE)
+                            AssetAccessType.getRandomValue())
         );
-        output.format("[CAPEC-7] Attacker '%s' has gained '%s' access to database '%s' through SQL injection on software '%s'",
+        print("[CAPEC-7] Attacker '%s' has gained '%s' access to database '%s' through SQL injection on software '%s'",
+                        $attacker.getFullName(), 
                         $attacker.getRecentAssetAccess().getType(),
                         $attacker.getRecentAssetAccess().getAsset().getName(), 
-                        $attacker.getFullName(), 
                         $software.toString()
                      );
 end
@@ -96,7 +97,9 @@ rule "CAPEC-16 : Dictionary-based Password Attack"
         # The attacker gained a user account on this software
         # We are assigning a random account for now
         $attacker.addAccount( $software.getRandomAccount() );
-        output.format("[CAPEC-16] Attacker '%s' has hacked account '%s' on software '%s'", $attacker.getFullName(), $attacker.getRecentAccount().getUsername(), $software.toString());
+        print("[CAPEC-16] Attacker '%s' has hacked account '%s' on software '%s' through a dictionary-based password attack",
+            $attacker.getFullName(), 
+            $attacker.getRecentAccount().getUsername(), 
+            $software.toString());
 end
-
 

@@ -9,7 +9,7 @@ import com.openske.model.assets.Asset;
 import com.openske.model.software.Software;
 import com.openske.model.security.SecurityState;
 
-global java.io.PrintWriter output;
+import function com.openske.engine.Engine.print;
 
 
 rule "Mark assets that are surrounded by risky software as risky"
