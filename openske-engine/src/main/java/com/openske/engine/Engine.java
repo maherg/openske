@@ -2,7 +2,6 @@ package com.openske.engine;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.List;
 
 import com.openske.drools.DroolsFacade;
 /**
@@ -16,6 +15,7 @@ public class Engine {
     protected PrintWriter outputWriter;
     protected long runningTime;
     protected static File currentWorkingDirectory;
+    protected static Engine instance;
 
     public Engine() {
         // Engine Initialization
@@ -26,14 +26,19 @@ public class Engine {
         Engine.currentWorkingDirectory = new File(".");
         // Mark engine as not started yet
         started = false;
+        Engine.instance = this;
+    }
+    
+    public static Engine getInstance() {
+        return Engine.instance;
     }
 
     public void run() {
         if (this.isStarted()) {
-            outputWriter.format("OpenSKE engine is already running");
+            outputWriter.format("[OPENSKE] OpenSKE's engine is already running");
             return;
         } else {
-            outputWriter.format("Running OpenSKE engine...");
+            outputWriter.format("[OPENSKE] Running OpenSKE engine...");
             try {
                 // Reset the runningTime
                 this.runningTime = 0L;
@@ -50,7 +55,7 @@ public class Engine {
                 drools.fireRules();
                 long endTime = System.currentTimeMillis();
                 this.runningTime = endTime - startTime;
-                outputWriter.format("Engine took %.2f seconds !", this.getRunningTime());
+                outputWriter.format("[OPENSKE] Engine took %.2f seconds !", this.getRunningTime());
             } catch (Throwable t) {
                 t.printStackTrace(outputWriter);
                 this.stop();
@@ -60,7 +65,7 @@ public class Engine {
 
     public void stop() {
         if (this.isStarted()) {
-            outputWriter.format("Stopping OpenSKE engine...");
+            outputWriter.format("[OPENSKE] Stopping OpenSKE engine...");
             drools.cleanup();
             started = false;
         }
@@ -69,18 +74,13 @@ public class Engine {
     public boolean isStarted() {
         return started;
     }
-    
-    public static void insertFact(Object fact) {
-        // TODO : insertFact
-    }
-    
-    @SuppressWarnings("unchecked")
-    public static void insertFacts(List facts) {
-        // TODO : insertFacts
-    }
 
     public PrintWriter getOutputWriter() {
         return outputWriter;
+    }
+    
+    public static void print(String text, Object... args) {
+        Engine.getInstance().getOutputWriter().format(text, args);
     }
 
     public void setOutputWriter(PrintWriter outputWriter) {
