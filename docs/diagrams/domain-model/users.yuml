@@ -1,0 +1,9 @@
+# Class Definitions
+[UserAccount|username;password;software]
+[User|fullName;email|addAccount();addAssetAccess();isAttacker();]
+[UserGroup|name;software]
+[UserAccountState|ACTIVE;EXPIRED;LOCKED]
+# Class Relations
+[UserAccount]-accounts[User]
+[UserGroup]users-groups[UserAccount]
+[UserAccount]state-[UserAccountState]

@@ -1,0 +1,11 @@
+# Class Definitions
+[Asset|name;securityState]
+[<<AssetAccessor>>]
+[AssetAccess|accessType]
+[Software]
+[UserAccount]
+# Class Relations
+[<<AssetAccessor>>]possesses->[AssetAccess]
+[AssetAccess]leads to->[Asset]
+[Software]-.->[<<AssetAccessor>>]
+[UserAccount]-.->[<<AssetAccessor>>]

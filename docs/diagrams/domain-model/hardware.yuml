@@ -1,11 +1,10 @@
 # Class Definitions
-[Connectable|CPE ID;address|addConnection();removeConnection();getConnections()]
-[Host|softwareList|addSoftware();removeSoftware();getSoftwareList();]
+[Connectable|CPE ID;address|addConnection();removeConnection();getConnections()|addSoftware();removeSoftware();getSoftwareList();]
+[Host]
 [Router]
 [Software|CPE ID;host;securityState]
 # Class Relations
 [Connectable]^-[Host]
 [Connectable]^-[Router]
 [Connectable]-connections[Connectable]
-[Host]installed-[Software]
-
+[Connectable]installed-[Software]
