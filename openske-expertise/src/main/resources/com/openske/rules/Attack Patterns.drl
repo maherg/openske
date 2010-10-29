@@ -97,7 +97,7 @@ rule "CAPEC-16 : Dictionary-based Password Attack"
         # The attacker gained a user account on this software
         # We are assigning a random account for now
         $attacker.addAccount( $software.getRandomAccount() );
-        print("[CAPEC-16] Attacker '%s' has hacked account '%s' on software '%s' through a dictionary-based password attack",
+        print("[CAPEC-16] Attacker '%s' has breached account '%s' on software '%s' through a dictionary-based password attack",
             $attacker.getFullName(), 
             $attacker.getRecentAccount().getUsername(), 
             $software.toString());
