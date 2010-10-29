@@ -164,7 +164,6 @@ public class DroolsFacade {
         if (isInitialized()) {
             outputWriter.format("[OPENSKE] Firing all rules...");
             int rulesFired = getSession().fireAllRules();
-            outputWriter.format("[OPENSKE] Fired %d rules", rulesFired);
         } else {
             // TODO : Handle calling this method without being initialized
         }
