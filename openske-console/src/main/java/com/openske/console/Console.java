@@ -43,7 +43,6 @@ public class Console {
                                 .toUpperCase());
                         switch (cmd) {
                         case EXIT:
-                        case QUIT:
                             exitConsole = true;
                             break;
                         case START:
@@ -65,8 +64,8 @@ public class Console {
                                     .println("The following commands are available :");
                             consoleWriter.print(ConsoleCommand.displayHelp());
                             break;
-                        case BEANSHELL:
-                            break;
+                        default:
+                            consoleWriter.println("This command is not implemented yet !");
                         }
                     } else {
                         consoleWriter.format("Unknown command : %s", line);

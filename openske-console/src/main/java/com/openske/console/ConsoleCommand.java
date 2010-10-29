@@ -8,10 +8,10 @@ public enum ConsoleCommand {
     HELP("Displays the console help"),
     BEANSHELL("Opens a beanshell interpreter"),
     EXIT("Exits the console"),
-    QUIT("Quits the console"),
     START("Starts the OpenSKE engine"),
     STOP("Stops the OpenSKE engine"),
     RESTART("Restarts the OpenSKE engine"),
+    BENCHMARK("Runs a benchmark test on OpenSKE with different amounts of knowledge facts")
     ;
     
     private String helpText;
