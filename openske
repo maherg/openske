@@ -3,7 +3,7 @@
 ORIGINAL_CWD=$(pwd)
 OPENSKE_ROOT=$(dirname $0)
 OPENSKE_CONSOLE=$OPENSKE_ROOT/openske-console
-#MAVEN_OPTS=
+#MAVEN_OPTS="-Xms256m -Xmx512m"
 MAVEN_BIN=mvn
 
 function message() {
@@ -21,11 +21,11 @@ fi
 
 message "Building OpenSKE..."
 
-$MAVEN_BIN -q clean install -DskipTests
+$MAVEN_BIN -q install -DskipTests
 
 if [ $? == "0" ]; then
 
     message "Running OpenSKE's console..."
 
-    $MAVEN_BIN -q -f $OPENSKE_CONSOLE/pom.xml exec:java -Dexec.mainClass=com.openske.console.Console
+    MAVEN_OPTS=$MAVEN_OPTS $MAVEN_BIN -q -f $OPENSKE_CONSOLE/pom.xml exec:java -Dexec.mainClass=com.openske.console.Console
 fi
