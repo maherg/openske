@@ -10,12 +10,13 @@ import com.openske.drools.DroolsFacade;
  */
 public class Engine {
 
+    protected static File currentWorkingDirectory;
+    protected static Engine instance;
     protected DroolsFacade drools;
     protected boolean started;
     protected PrintWriter outputWriter;
-    protected long runningTime;
-    protected static File currentWorkingDirectory;
-    protected static Engine instance;
+    protected long startTime;
+    protected EngineMode mode = EngineMode.SIMULATION;
 
     public Engine() {
         // Engine Initialization
@@ -33,39 +34,48 @@ public class Engine {
         return Engine.instance;
     }
 
-    public void run() {
+    public void start(String[] factFiles) {
         if (this.isStarted()) {
-            outputWriter.format("[OPENSKE] OpenSKE's engine is already running");
+            outputWriter.printf("[OPENSKE] OpenSKE's engine is already started !");
             return;
-        } else {
-            outputWriter.format("[OPENSKE] Running OpenSKE engine...");
+        } else if(factFiles.length == 0) {
+            outputWriter.printf("[OPENSKE] No fact files have been provided to be loaded !");
+        }
+        else {
+	    this.startTime = System.currentTimeMillis();
+            outputWriter.printf("[OPENSKE] Starting OpenSKE engine in '%s' mode...", mode.toString().toLowerCase());
             try {
-                // Reset the runningTime
-                this.runningTime = 0L;
-                long startTime = System.currentTimeMillis();
                 // Marking the engine as started from the beginning,
                 // since it's running in it's own thread
                 started = true;
+                
+                // Drools Initialization
                 drools.initialize();
+                outputWriter.printf("[OPENSKE] Drools initialization completed at : %.2f seconds", this.getRunningTime());
+                
+                // Loading rules
                 drools.loadRules();
-                drools.loadFacts();
-                // Disabling the process running for now
-                // drools.loadProcesses();
-                // drools.startProcesses();
+                outputWriter.printf("[OPENSKE] Loading rules into Drools completed at : %.2f seconds", this.getRunningTime());
+                
+                // Loading facts
+                drools.loadFacts(factFiles);
+                outputWriter.printf("[OPENSKE] Loading facts into Drools completed at : %.2f seconds", this.getRunningTime());
+                
+                // Fire all activations
                 drools.fireRules();
-                long endTime = System.currentTimeMillis();
-                this.runningTime = endTime - startTime;
-                outputWriter.format("[OPENSKE] Engine took %.2f seconds !", this.getRunningTime());
+                outputWriter.printf("[OPENSKE] Firing rules completed at : %.2f seconds", this.getRunningTime());
+		
+                outputWriter.printf("[OPENSKE] Engine took in total : %.2f seconds !", this.getRunningTime());
             } catch (Throwable t) {
                 t.printStackTrace(outputWriter);
                 this.stop();
             }
         }
     }
-
+    
     public void stop() {
         if (this.isStarted()) {
-            outputWriter.format("[OPENSKE] Stopping OpenSKE engine...");
+            outputWriter.printf("[OPENSKE] Stopping OpenSKE engine...");
             drools.cleanup();
             started = false;
         }
@@ -80,7 +90,7 @@ public class Engine {
     }
     
     public static void print(String text, Object... args) {
-        Engine.getInstance().getOutputWriter().format(text, args);
+        Engine.getInstance().getOutputWriter().printf(text, args);
     }
 
     public void setOutputWriter(PrintWriter outputWriter) {
@@ -91,19 +101,21 @@ public class Engine {
 
     public float getRunningTime() {
         if (this.isStarted()) {
-            return (float) ((float) runningTime / 1000.0);
+            return (float) ((System.currentTimeMillis() - this.startTime) / 1000.0);
         } else {
             return 0L;
         }
     }
 
-    public static void main(String[] args) {
-        Engine engine = new Engine();
-        engine.run();
-        engine.stop();
-    }
-
     public static File currentWorkingDirectory() {
         return currentWorkingDirectory;
+    }
+
+    public EngineMode getMode() {
+        return mode;
+    }
+
+    public void setMode(EngineMode mode) {
+        this.mode = mode;
     }
 }

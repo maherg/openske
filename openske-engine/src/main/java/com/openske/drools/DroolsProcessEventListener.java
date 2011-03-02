@@ -47,7 +47,7 @@ public class DroolsProcessEventListener implements ProcessEventListener {
 
     @Override
     public void beforeNodeTriggered(ProcessNodeTriggeredEvent event) {
-        outputWriter.format("Entering node '%s'...", event.getNodeInstance().getNodeName());
+        outputWriter.printf("Entering node '%s'...", event.getNodeInstance().getNodeName());
         
     }
 
@@ -59,7 +59,7 @@ public class DroolsProcessEventListener implements ProcessEventListener {
 
     @Override
     public void beforeProcessStarted(ProcessStartedEvent event) {
-        outputWriter.format("Starting process '%s'...", event.getProcessInstance().getProcessId());
+        outputWriter.printf("Starting process '%s'...", event.getProcessInstance().getProcessId());
         
     }
 

@@ -22,12 +22,12 @@ public class DroolsAgendaEventListener implements AgendaEventListener {
 
     @Override
     public void activationCreated(ActivationCreatedEvent event) {
-        outputWriter.format("[DROOLS] Activation Created : %s", event.getActivation().getRule().getName());
+        outputWriter.printf("[DROOLS] Activation Created : %s", event.getActivation().getRule().getName());
     }
 
     @Override
     public void beforeActivationFired(BeforeActivationFiredEvent event) {
-        outputWriter.format("[DROOLS] Activation Fired : %s", event.getActivation().getRule().getName());
+        outputWriter.printf("[DROOLS] Activation Fired : %s", event.getActivation().getRule().getName());
 
     }
 
