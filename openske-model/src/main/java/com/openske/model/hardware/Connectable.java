@@ -6,7 +6,6 @@ import java.util.List;
 public abstract class Connectable {
 
     protected String address;
-
     protected List<Connectable> connections;
 
     protected Connectable(String address) {
@@ -39,14 +38,14 @@ public abstract class Connectable {
     }
     
     public boolean canReach(Host target) {
-        if(this.connections.contains(target)) {
+        if(this == target || this.connections.contains(target)) {
             return true;
         }
-        for(Connectable neighbor : this.connections) {
-            if(neighbor.canReach(target)) {
-                return true;
-            }
-        }
+//        for(Connectable neighbor : this.connections) {
+//            if(neighbor.canReach(target)) {
+//                return true;
+//            }
+//        }
         return false;
     }
 
