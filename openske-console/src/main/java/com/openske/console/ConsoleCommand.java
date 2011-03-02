@@ -6,12 +6,12 @@ import java.util.List;
 
 public enum ConsoleCommand {
     HELP("Displays the console help"),
-    BEANSHELL("Opens a beanshell interpreter"),
+    CLEAR("Clears the screen"),
     EXIT("Exits the console"),
     START("Starts the OpenSKE engine"),
     STOP("Stops the OpenSKE engine"),
     RESTART("Restarts the OpenSKE engine"),
-    BENCHMARK("Runs a benchmark test on OpenSKE with different amounts of knowledge facts")
+    BENCHMARK("Starts the OpenSKE engine in benchmark mode")
     ;
     
     private String helpText;
@@ -46,6 +46,7 @@ public enum ConsoleCommand {
     
     public static String displayHelp() {
         StringBuffer sb = new StringBuffer();
+        sb.append("The following commands are available :\n");
         for(ConsoleCommand cmd : ConsoleCommand.values()) {
             sb.append(String.format("%-20s %s\n", cmd.toString(), cmd.getHelpText()));
         }

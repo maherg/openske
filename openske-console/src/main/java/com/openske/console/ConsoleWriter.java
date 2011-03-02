@@ -5,19 +5,30 @@ import java.io.PrintWriter;
 
 public class ConsoleWriter extends PrintWriter {
     
-    protected String lineSeparator;
+    protected String lineSeparator = System.getProperty("line.separator");
+    protected boolean quiet = false;
 
     public ConsoleWriter(PrintStream printStream) {
         super(printStream, true);
-        lineSeparator = System.getProperty("line.separator");
     }
     
     @Override
-    public PrintWriter format(String format, Object... args ) {
+    public PrintWriter printf(String format, Object... args ) {
+	if(this.quiet && !format.startsWith("[OPENSKE]")) {
+	    return this;
+	}
         if(!format.endsWith(lineSeparator)) {
             format = format + lineSeparator;
         }
-        super.format(format, args);
+        super.printf(format, args);
         return this;
+    }
+
+    public void setQuiet(boolean quiet) {
+	this.quiet = quiet;
+    }
+
+    public boolean isQuiet() {
+	return this.quiet;
     }
 }

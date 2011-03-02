@@ -5,6 +5,7 @@ import jline.ConsoleReader;
 import jline.SimpleCompletor;
 
 import com.openske.engine.Engine;
+import com.openske.engine.EngineMode;
 
 public class Console {
 
@@ -23,9 +24,9 @@ public class Console {
 
         // MAIN LOOP
         consoleWriter.print("\033[1;33m");
-        consoleWriter.format("Welcome to OpenSKE (JVM: %s) !", System
+        consoleWriter.printf("Welcome to OpenSKE (JVM: %s) !", System
                 .getProperty("java.version"));
-        consoleWriter.format("Type 'help' for help\n");
+        consoleWriter.printf("Type 'help' for help\n");
         consoleWriter.print("\033[m");
         String line = null;
         Engine engine = new Engine();
@@ -38,42 +39,50 @@ public class Console {
                 }
                 boolean exitConsole = false;
                 try {
-                    if (ConsoleCommand.exists(line)) {
-                        ConsoleCommand cmd = ConsoleCommand.valueOf(line
-                                .toUpperCase());
+                    // Parse the command line input.
+                    String[] lineParts = line.split(" ");
+                    String command = lineParts[0];
+                    String[] commandArgs = new String[lineParts.length - 1];
+                    System.arraycopy(lineParts, 1, commandArgs, 0, lineParts.length - 1);
+                    // Delegate the command execution upon the command name.
+                    if (ConsoleCommand.exists(command)) {
+                        ConsoleCommand cmd = ConsoleCommand.valueOf(command.toUpperCase());
                         switch (cmd) {
                         case EXIT:
                             exitConsole = true;
                             break;
                         case START:
-                            if (!engine.isStarted()) {
-                                engine.run();
-                            }
+                            engine.start(commandArgs);
                             break;
                         case STOP:
-                            if (engine.isStarted()) {
-                                engine.stop();
-                            }
+                            engine.stop();
                             break;
                         case RESTART:
                             engine.stop();
-                            engine.run();
+                            engine.start(commandArgs);
                             break;
                         case HELP:
-                            consoleWriter
-                                    .println("The following commands are available :");
                             consoleWriter.print(ConsoleCommand.displayHelp());
                             break;
+                        case CLEAR:
+                            consoleReader.clearScreen();
+                            break;
+                       case BENCHMARK:
+                           engine.setMode(EngineMode.BENCHMARK);
+			   consoleWriter.setQuiet(true);
+                           engine.start(commandArgs);
+			   engine.stop();
+                           break;
                         default:
                             consoleWriter.println("This command is not implemented yet !");
                         }
                     } else {
-                        consoleWriter.format("Unknown command : %s", line);
+                        consoleWriter.printf("Unknown command : %s", command);
                         continue;
                     }
 
                 } catch (Exception e) {
-                    consoleWriter.format("Failed to execute : '%s'", line);
+                    consoleWriter.printf("Failed to execute : '%s'", line);
                     e.printStackTrace(consoleWriter);
                     continue;
                 }
