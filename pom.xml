@@ -15,7 +15,6 @@
 	<module>openske-engine</module>
 	<module>openske-expertise</module>
         <module>openske-console</module>
-        <module>maven-openske-plugin</module>
   </modules>
 
     <properties>
