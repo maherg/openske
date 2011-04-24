@@ -16,7 +16,7 @@ public class Engine {
     protected boolean started;
     protected PrintWriter outputWriter;
     protected long startTime;
-    protected EngineMode mode = EngineMode.SIMULATION;
+    protected EngineMode mode = EngineMode.NORMAL;
 
     public Engine() {
         // Engine Initialization
