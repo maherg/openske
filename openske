@@ -1,6 +1,5 @@
 #!/bin/bash
 
-ORIGINAL_CWD=$(pwd)
 OPENSKE_ROOT=$(dirname $0)
 OPENSKE_CONSOLE=$OPENSKE_ROOT/openske-console
 #MAVEN_OPTS="-Xms256m -Xmx512m"
