@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <name>OpenSKE</name>
-    <url>http://www.openske.com</url>
+    <url>http://code.google.com/p/openske</url>
 
     <modules>
 	<module>openske-model</module>
