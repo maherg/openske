@@ -4,87 +4,77 @@ import jline.ArgumentCompletor;
 import jline.ConsoleReader;
 import jline.SimpleCompletor;
 
+import com.openske.console.commands.BenchmarkCommand;
+import com.openske.console.commands.ClearCommand;
+import com.openske.console.commands.ConsoleCommand;
+import com.openske.console.commands.ConsoleCommandFactory;
+import com.openske.console.commands.ExitCommand;
+import com.openske.console.commands.HelpCommand;
+import com.openske.console.commands.RestartCommand;
+import com.openske.console.commands.StartCommand;
+import com.openske.console.commands.StopCommand;
 import com.openske.engine.Engine;
-import com.openske.engine.EngineMode;
 
 public class Console {
 
-    public Console() {
+    public static ConsoleWriter writer;
+    public static ConsoleReader reader;
+    public static String currentLine;
+    public static String currentCommand;
+    public static String[] currentCommandArgs;
+    public static Engine engine;
+    public static boolean exitNow = false;
 
+    private static void initialize() throws Exception {
+        writer = new ConsoleWriter(System.out);
+        reader = new ConsoleReader(System.in, writer);
+        // consoleReader.setDefaultPrompt("\033[1;36mopenske>\033[m ");
+        reader.setDefaultPrompt("OpenSKE > ");
+        ConsoleCommandFactory.create(BenchmarkCommand.class);
+        ConsoleCommandFactory.create(ClearCommand.class);
+        ConsoleCommandFactory.create(ExitCommand.class);
+        ConsoleCommandFactory.create(HelpCommand.class);
+        ConsoleCommandFactory.create(RestartCommand.class);
+        ConsoleCommandFactory.create(StartCommand.class);
+        ConsoleCommandFactory.create(StopCommand.class);
+        reader.addCompletor(new ArgumentCompletor(new SimpleCompletor(com.openske.console.commands.ConsoleCommandFactory.listCommandNames())));
+        currentLine = null;
+
+        engine = Engine.getInstance();
+        engine.setOutputWriter(writer);
     }
 
-    public static void main(String[] args) throws Throwable {
-        ConsoleWriter consoleWriter = new ConsoleWriter(System.out);
-        ConsoleReader consoleReader = new ConsoleReader(System.in,
-                consoleWriter);
-        // consoleReader.setDefaultPrompt("\033[1;36mopenske>\033[m ");
-        consoleReader.setDefaultPrompt("openske> ");
+    private static void printHeader() {
+        writer.printf("Welcome to OpenSKE (JVM: %s) !", System.getProperty("java.version"));
+        writer.printf("Type 'help' for help\n");
+    }
 
-        consoleReader.addCompletor(new ArgumentCompletor(new SimpleCompletor(
-                ConsoleCommand.valueNames())));
-
-        // MAIN LOOP
-        // consoleWriter.print("\033[1;33m");
-        consoleWriter.printf("Welcome to OpenSKE (JVM: %s) !", System
-                .getProperty("java.version"));
-        consoleWriter.printf("Type 'help' for help\n");
-        // consoleWriter.print("\033[m");
-        String line = null;
-        Engine engine = new Engine();
-        engine.setOutputWriter(consoleWriter);
+    private static void mainLoop() throws Exception {
         try {
-            while ((line = consoleReader.readLine()) != null) {
-                line = line.trim();
-                if (line.equals("")) {
+            while ((currentLine = reader.readLine()) != null) {
+                currentLine = currentLine.trim();
+                if (currentLine.equals("")) {
                     continue;
                 }
                 boolean exitConsole = false;
                 try {
                     // Parse the command line input.
-                    String[] lineParts = line.split(" ");
-                    String command = lineParts[0];
-                    String[] commandArgs = new String[lineParts.length - 1];
-                    System.arraycopy(lineParts, 1, commandArgs, 0, lineParts.length - 1);
-                    // Delegate the command execution upon the command name.
-                    if (ConsoleCommand.exists(command)) {
-                        ConsoleCommand cmd = ConsoleCommand.valueOf(command.toUpperCase());
-                        switch (cmd) {
-                        case EXIT:
-                            exitConsole = true;
-                            break;
-                        case START:
-                            engine.start(commandArgs);
-                            break;
-                        case STOP:
-                            engine.stop();
-                            break;
-                        case RESTART:
-                            engine.stop();
-                            engine.start(commandArgs);
-                            break;
-                        case HELP:
-                            consoleWriter.print(ConsoleCommand.displayHelp());
-                            break;
-                        case CLEAR:
-                            consoleReader.clearScreen();
-                            break;
-                       case BENCHMARK:
-                           engine.setMode(EngineMode.BENCHMARK);
-			   consoleWriter.setQuiet(true);
-                           engine.start(commandArgs);
-			   engine.stop();
-                           break;
-                        default:
-                            consoleWriter.println("This command is not implemented yet !");
+                    String[] lineParts = currentLine.split(" ");
+                    currentCommand = lineParts[0];
+                    currentCommandArgs = new String[lineParts.length - 1];
+                    System.arraycopy(lineParts, 1, currentCommandArgs, 0, lineParts.length - 1);
+                    if (ConsoleCommandFactory.hasCommand(currentCommand)) {
+                        ConsoleCommand cmd = ConsoleCommandFactory.getCommand(currentCommand);
+                        if (cmd.parseArguments(currentCommandArgs)) {
+                            cmd.execute();
                         }
                     } else {
-                        consoleWriter.printf("Unknown command : %s", command);
+                        writer.printf("Unknown command : %s", currentCommand);
                         continue;
                     }
-
                 } catch (Exception e) {
-                    consoleWriter.printf("Failed to execute : '%s'", line);
-                    e.printStackTrace(consoleWriter);
+                    writer.printf("Failed to execute : '%s'", currentLine);
+                    e.printStackTrace(writer);
                     continue;
                 }
                 if (exitConsole) {
@@ -92,14 +82,36 @@ public class Console {
                 }
             }
         } finally {
-            // Write a new line if CTRL-D was pressed
-            if (line == null) {
-                consoleWriter.println();
-            }
-            // Upon exiting the console, stop the engine if we started it
-            if (engine.isStarted()) {
-                engine.stop();
-            }
+
         }
+    }
+
+    private static void cleanup() {
+        // Write a new line if CTRL-D was pressed
+        if (currentLine == null) {
+            writer.println();
+        }
+        // Upon exiting the console, stop the engine if we started it
+        if (engine.isStarted()) {
+            engine.stop();
+        }
+    }
+
+    public static void println(String text, Object... args) {
+        writer.printf(text, args);
+    }
+
+    public static void clearScreen() {
+
+    }
+
+    public static void main(String[] args) throws Throwable {
+        initialize();
+
+        printHeader();
+
+        mainLoop();
+
+        cleanup();
     }
 }

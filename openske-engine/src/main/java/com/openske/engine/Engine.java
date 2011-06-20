@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintWriter;
 
 import com.openske.drools.DroolsFacade;
+import com.openske.nessus.NessusFileParser;
 /**
  * OpenSKE's Engine
  * 
@@ -17,6 +18,9 @@ public class Engine {
     protected PrintWriter outputWriter;
     protected long startTime;
     protected EngineMode mode = EngineMode.NORMAL;
+    protected File infrastructureFile;
+    protected File nessusFile;
+    protected NessusFileParser nessusParser;
 
     public Engine() {
         // Engine Initialization
@@ -25,24 +29,25 @@ public class Engine {
         drools = new DroolsFacade();
         drools.setOutputWriter(outputWriter);
         Engine.currentWorkingDirectory = new File(".");
+        nessusParser = new NessusFileParser();
         // Mark engine as not started yet
         started = false;
         Engine.instance = this;
     }
     
     public static Engine getInstance() {
+        if(Engine.instance == null) {
+            Engine.instance = new Engine();
+        }
         return Engine.instance;
     }
 
-    public void start(String[] factFiles) {
+    public void start() {
         if (this.isStarted()) {
             outputWriter.printf("[OPENSKE] OpenSKE's engine is already started !");
             return;
-        } else if(factFiles.length == 0) {
-            outputWriter.printf("[OPENSKE] No fact files have been provided to be loaded !");
-        }
-        else {
-	    this.startTime = System.currentTimeMillis();
+        } else {
+            this.startTime = System.currentTimeMillis();
             outputWriter.printf("[OPENSKE] Starting OpenSKE engine in '%s' mode...", mode.toString().toLowerCase());
             try {
                 // Marking the engine as started from the beginning,
@@ -58,7 +63,7 @@ public class Engine {
                 outputWriter.printf("[OPENSKE] Loading rules into Drools completed at : %.2f seconds", this.getRunningTime());
                 
                 // Loading facts
-                drools.loadFacts(factFiles);
+                drools.loadFacts(new String[] { infrastructureFile.getName() });
                 outputWriter.printf("[OPENSKE] Loading facts into Drools completed at : %.2f seconds", this.getRunningTime());
                 
                 // Fire all activations
@@ -117,5 +122,13 @@ public class Engine {
 
     public void setMode(EngineMode mode) {
         this.mode = mode;
+    }
+
+    public void setInfrastructureFile(File infrastructureFile) {
+        this.infrastructureFile = infrastructureFile;
+    }
+
+    public void setNessusFile(File nessusFile) {
+        this.nessusFile = nessusFile;
     }
 }
