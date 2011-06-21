@@ -36,10 +36,6 @@ public class Host extends Connectable {
         return this.softwares.contains(software);
     }
 
-    public Host addSoftware(String name, String version) {
-        return this.addSoftware(new Software(null, name, version, this));
-    }
-
     public List<Software> getSoftwares() {
         return softwares;
     }

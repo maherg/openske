@@ -10,16 +10,15 @@ import com.openske.model.assets.AssetAccessType;
 import com.openske.model.assets.AssetAccessor;
 import com.openske.model.assets.AssetType;
 import com.openske.model.hardware.Host;
+import com.openske.model.measurablesecurity.CommonPlatformEnumeration;
 import com.openske.model.security.SecurityState;
 import com.openske.model.security.UserAccount;
 import com.openske.model.security.UserGroup;
 
-public class Software implements AssetAccessor {
+public class Software implements AssetAccessor, CommonPlatformEnumeration, Comparable<Software> {
 
     protected Host host;
-    protected String name;
-    protected String vendor;
-    protected String version;
+    protected String cpeId;
     protected boolean anAsset;
     protected SecurityState securityState;
     protected List<UserAccount> accounts;
@@ -29,10 +28,8 @@ public class Software implements AssetAccessor {
     protected List<Vulnerability> vulnerabilities;
     protected List<Weakness> weaknesses;
 
-    public Software(String vendor, String name, String version, Host host) {
-        this.vendor = vendor;
-        this.name = name;
-        this.version = version;
+    public Software(String cpeId, Host host) {
+        this.cpeId = cpeId;
         this.host = host;
         this.vulnerabilities = new ArrayList<Vulnerability>();
         this.weaknesses = new ArrayList<Weakness>();
@@ -119,10 +116,6 @@ public class Software implements AssetAccessor {
         return host;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public UserAccount getRandomAccount() {
         if (this.accounts.isEmpty()) {
             return null;
@@ -161,14 +154,6 @@ public class Software implements AssetAccessor {
 
     public SecurityState getSecurityState() {
         return securityState;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public String getVersion() {
-        return version;
     }
 
     public List<Vulnerability> getVulnerabilities() {
@@ -215,20 +200,8 @@ public class Software implements AssetAccessor {
         this.host = host;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setSecurityState(SecurityState securityState) {
         this.securityState = securityState;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public void setVulnerabilities(List<Vulnerability> vulnerabilities) {
@@ -240,6 +213,16 @@ public class Software implements AssetAccessor {
     }
 
     public String toString() {
-        return String.format("cpe:/a:%s:%s:%s", this.vendor, this.name, this.version);
+        return this.cpeId();
+    }
+
+    @Override
+    public String cpeId() {
+        return this.cpeId;
+    }
+
+    @Override
+    public int compareTo(Software o) {
+        return cpeId.compareToIgnoreCase(o.cpeId());
     }
 }

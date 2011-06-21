@@ -5,43 +5,48 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.EventFilter;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class DatasetQuery {
 
     protected Dataset dataset;
+    protected DocumentBuilderFactory factory;
+    protected DocumentBuilder builder;
+    protected Document document;
 
     public DatasetQuery(Dataset dataset) {
         this.dataset = dataset;
+        factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        try {
+            builder = factory.newDocumentBuilder();
+            URL url = dataset.asURL();
+            InputStream in = url.openStream();
+            document = builder.parse(in);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public List<String> query(String nodeName, String searchText) throws Exception {
-        List<String> results = new ArrayList<String>();
-        URL url = dataset.asURL();
-        InputStream in = url.openStream();
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        XMLEventReader eventReader = factory.createXMLEventReader(in);
-        XMLEventReader filteredReader = factory.createFilteredReader(eventReader, new EventFilter() {
-            public boolean accept(XMLEvent event) {
-                return event.isStartElement();
-            }
-        });
-        while (filteredReader.hasNext()) {
-            XMLEvent event = filteredReader.nextEvent();
-            StartElement element = event.asStartElement();
-            if (element.getName().toString().equals(nodeName) && filteredReader.getElementText().contains(searchText)) {
-                String idValue = element.getAttributeByName(new QName("ID")).getValue();
-                results.add(idValue);
-            }
-        }
+    public List<Node> query(String nodeName, String searchText) {
+        List<Node> results = new ArrayList<Node>();
         
-        filteredReader.close();
-        eventReader.close();
+        try {
+            NodeList nodeList = document.getElementsByTagName(nodeName);
+            for(int i = 0;i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if(node.getTextContent().contains(searchText)) {
+                    results.add(node);
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         return results;
     }

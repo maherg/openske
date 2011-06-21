@@ -1,10 +1,11 @@
 package com.openske.model.attacks;
 
+import com.openske.model.measurablesecurity.CommonAttackPatternEnumerationAndClassification;
 import com.openske.model.software.Weakness;
 
-public class AttackPattern {
+public class AttackPattern implements CommonAttackPatternEnumerationAndClassification {
 
-    protected String identifier;
+    protected String capecId;
     protected String description;
     protected Weakness weakness;
     protected AttackPatternState state;
@@ -13,19 +14,10 @@ public class AttackPattern {
         return null;
     }
 
-    public AttackPattern(String identifier, Weakness weakness) {
-        this.identifier = identifier;
+    public AttackPattern(String capecId, Weakness weakness) {
+        this.capecId = capecId;
         this.weakness = weakness;
         this.state = AttackPatternState.READY;
-        // TODO : Collect additional information from the CAPEC data-set
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
 
     public String getDescription() {
@@ -50,6 +42,10 @@ public class AttackPattern {
 
     public void setWeakness(Weakness weakness) {
         this.weakness = weakness;
+    }
+    
+    public String capecId() {
+        return this.capecId;
     }
 
 }

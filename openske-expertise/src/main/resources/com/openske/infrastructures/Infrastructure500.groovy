@@ -12,7 +12,7 @@ session.insert(router)
     session.insert(host)
     // Software
     100.times { softCount ->
-        def soft = new Software("vendor-${softCount}", "software-${softCount}", softCount.toString(), host)
+        def soft = new Software("cpe:/a:vendor-${softCount}:software-${softCount}:${softCount.toString()}", host)
         soft.addWeakness("CWE-285").addWeakness("CWE-400").addWeakness("CWE-707")
         session.insert(soft)
     }

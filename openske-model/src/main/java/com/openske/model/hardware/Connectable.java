@@ -3,7 +3,7 @@ package com.openske.model.hardware;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Connectable {
+public abstract class Connectable implements Comparable<Connectable> {
 
     protected String address;
     protected List<Connectable> connections;
@@ -11,6 +11,10 @@ public abstract class Connectable {
     protected Connectable(String address) {
         this.address = address;
         this.connections = new ArrayList<Connectable>();
+    }
+    
+    public int compareTo(Connectable cnt) {
+        return address.compareToIgnoreCase(cnt.getAddress());
     }
 
     public List<Connectable> getConnections() {

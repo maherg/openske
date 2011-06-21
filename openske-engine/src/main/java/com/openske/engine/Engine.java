@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.PrintWriter;
 
 import com.openske.drools.DroolsFacade;
+import com.openske.model.Infrastructure;
 import com.openske.nessus.NessusFileParser;
-/**
- * OpenSKE's Engine
- * 
- */
+
 public class Engine {
 
     protected static File currentWorkingDirectory;
@@ -18,6 +16,7 @@ public class Engine {
     protected PrintWriter outputWriter;
     protected long startTime;
     protected EngineMode mode = EngineMode.NORMAL;
+    protected Infrastructure infrastructure;
     protected File infrastructureFile;
     protected File nessusFile;
     protected NessusFileParser nessusParser;
@@ -29,7 +28,6 @@ public class Engine {
         drools = new DroolsFacade();
         drools.setOutputWriter(outputWriter);
         Engine.currentWorkingDirectory = new File(".");
-        nessusParser = new NessusFileParser();
         // Mark engine as not started yet
         started = false;
         Engine.instance = this;
@@ -41,14 +39,18 @@ public class Engine {
         }
         return Engine.instance;
     }
+    
+    public void log(String text, Object... args) {
+        outputWriter.printf("[OPENSKE] " + text, args);
+    }
 
     public void start() {
         if (this.isStarted()) {
-            outputWriter.printf("[OPENSKE] OpenSKE's engine is already started !");
+            log("OpenSKE's engine is already started !");
             return;
         } else {
             this.startTime = System.currentTimeMillis();
-            outputWriter.printf("[OPENSKE] Starting OpenSKE engine in '%s' mode...", mode.toString().toLowerCase());
+            log("Starting OpenSKE engine in '%s' mode...", mode.toString().toLowerCase());
             try {
                 // Marking the engine as started from the beginning,
                 // since it's running in it's own thread
@@ -56,21 +58,29 @@ public class Engine {
                 
                 // Drools Initialization
                 drools.initialize();
-                outputWriter.printf("[OPENSKE] Drools initialization completed at : %.2f seconds", this.getRunningTime());
+                log("Drools initialization completed at : %.2f seconds", this.getRunningTime());
                 
                 // Loading rules
                 drools.loadRules();
-                outputWriter.printf("[OPENSKE] Loading rules into Drools completed at : %.2f seconds", this.getRunningTime());
+                log("Loading rules into Drools completed at : %.2f seconds", this.getRunningTime());
+                
+                // Infrastructure loading (Nessus is optional)
+                infrastructure = new Infrastructure(infrastructureFile);
+                
+                if(nessusFile != null && nessusFile.exists()) {
+                    nessusParser = new NessusFileParser(nessusFile, infrastructure);
+                    nessusParser.parse();
+                }
                 
                 // Loading facts
-                drools.loadFacts(new String[] { infrastructureFile.getName() });
-                outputWriter.printf("[OPENSKE] Loading facts into Drools completed at : %.2f seconds", this.getRunningTime());
+                drools.loadFacts(infrastructure);
+                log("Loading facts into Drools completed at : %.2f seconds", this.getRunningTime());
                 
                 // Fire all activations
                 drools.fireRules();
-                outputWriter.printf("[OPENSKE] Firing rules completed at : %.2f seconds", this.getRunningTime());
+                log("Firing rules completed at : %.2f seconds", this.getRunningTime());
 		
-                outputWriter.printf("[OPENSKE] Engine took in total : %.2f seconds !", this.getRunningTime());
+                log("Engine took in total : %.2f seconds !", this.getRunningTime());
             } catch (Throwable t) {
                 t.printStackTrace(outputWriter);
                 this.stop();
@@ -80,7 +90,7 @@ public class Engine {
     
     public void stop() {
         if (this.isStarted()) {
-            outputWriter.printf("[OPENSKE] Stopping OpenSKE engine...");
+            log("Stopping OpenSKE engine...");
             drools.cleanup();
             started = false;
         }
@@ -130,5 +140,19 @@ public class Engine {
 
     public void setNessusFile(File nessusFile) {
         this.nessusFile = nessusFile;
+    }
+    
+    public String status() {
+        if(!this.isStarted()) {
+            return "The OpenSKE engine is not running.";
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        
+        sb.append("OpenSKE Status:\n\n");
+        
+        sb.append(infrastructure.statistics());
+        
+        return sb.toString();
     }
 }

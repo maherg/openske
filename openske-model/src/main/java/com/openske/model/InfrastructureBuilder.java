@@ -11,7 +11,12 @@ import groovy.util.BuilderSupport;
  */
 public class InfrastructureBuilder extends BuilderSupport {
     
-    protected Infrastructure infrastructure = new Infrastructure();
+    protected Infrastructure infrastructure;
+    
+    
+    public Infrastructure getInfrastructure() {
+        return this.infrastructure;
+    }
 
     @Override
     protected Object createNode(Object name) {

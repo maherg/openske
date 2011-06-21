@@ -74,4 +74,9 @@ public class UserAccount implements AssetAccessor {
     public void setSoftware(Software software) {
         this.software = software;
     }
+    
+    @Override
+    public String toString() {
+        return this.username + "@" + this.software.toString();
+    }
 }
