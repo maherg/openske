@@ -38,6 +38,7 @@ public class Console {
         reader = new ConsoleReader(System.in, writer);
         historyFile.createNewFile();
         history = new History(historyFile);
+        reader.setHistory(history);
         // consoleReader.setDefaultPrompt("\033[1;36mopenske>\033[m ");
         reader.setDefaultPrompt("OpenSKE > ");
         ConsoleCommandFactory.create(BenchmarkCommand.class);
