@@ -25,10 +25,11 @@ public class HelpCommand extends ConsoleCommand {
                 }
             }
         } else {
-            Console.println("The following are the available console commands.\n\n");
+            Console.println("\nThe following are the available console commands.\n");
             for(ConsoleCommand cmd : ConsoleCommandFactory.listCommands()) {
                 Console.println(helpEntry(cmd));
             }
+            Console.println("\n");
         }
     }
     

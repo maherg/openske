@@ -32,7 +32,14 @@ public class StartCommand extends ConsoleCommand {
 
     @Override
     public void execute() {
-        Console.engine.setInfrastructureFile(new File(commandLine.getOptionValue(OPTION_INFRASTRUCTURE_FILE)));
+        File infrastruceFile = new File(commandLine.getOptionValue(OPTION_INFRASTRUCTURE_FILE));
+        if(infrastruceFile.exists()) {
+            Console.engine.setInfrastructureFile(infrastruceFile);
+        } else {
+            Console.println("Cannot find the infrastructure file : " + infrastruceFile.getPath());
+            return;
+        }
+        
         if(commandLine.hasOption(OPTION_NESSUS_FILE)) {
             Console.engine.setNessusFile(new File(commandLine.getOptionValue(OPTION_NESSUS_FILE)));
         }

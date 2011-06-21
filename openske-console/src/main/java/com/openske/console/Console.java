@@ -1,7 +1,11 @@
 package com.openske.console;
 
+import java.io.File;
+import java.io.IOException;
+
 import jline.ArgumentCompletor;
 import jline.ConsoleReader;
+import jline.History;
 import jline.SimpleCompletor;
 
 import com.openske.console.commands.BenchmarkCommand;
@@ -12,13 +16,17 @@ import com.openske.console.commands.ExitCommand;
 import com.openske.console.commands.HelpCommand;
 import com.openske.console.commands.RestartCommand;
 import com.openske.console.commands.StartCommand;
+import com.openske.console.commands.StatusCommand;
 import com.openske.console.commands.StopCommand;
 import com.openske.engine.Engine;
 
 public class Console {
+    
+    public static final File historyFile = new File(System.getProperty("user.home") + File.separator + ".openske_history"); 
 
     public static ConsoleWriter writer;
     public static ConsoleReader reader;
+    public static History history;
     public static String currentLine;
     public static String currentCommand;
     public static String[] currentCommandArgs;
@@ -28,6 +36,8 @@ public class Console {
     private static void initialize() throws Exception {
         writer = new ConsoleWriter(System.out);
         reader = new ConsoleReader(System.in, writer);
+        historyFile.createNewFile();
+        history = new History(historyFile);
         // consoleReader.setDefaultPrompt("\033[1;36mopenske>\033[m ");
         reader.setDefaultPrompt("OpenSKE > ");
         ConsoleCommandFactory.create(BenchmarkCommand.class);
@@ -37,6 +47,7 @@ public class Console {
         ConsoleCommandFactory.create(RestartCommand.class);
         ConsoleCommandFactory.create(StartCommand.class);
         ConsoleCommandFactory.create(StopCommand.class);
+        ConsoleCommandFactory.create(StatusCommand.class);
         reader.addCompletor(new ArgumentCompletor(new SimpleCompletor(com.openske.console.commands.ConsoleCommandFactory.listCommandNames())));
         currentLine = null;
 
@@ -56,6 +67,7 @@ public class Console {
                 if (currentLine.equals("")) {
                     continue;
                 }
+                history.addToHistory(currentLine);
                 boolean exitConsole = false;
                 try {
                     // Parse the command line input.
@@ -86,7 +98,7 @@ public class Console {
         }
     }
 
-    private static void cleanup() {
+    private static void cleanup() throws IOException {
         // Write a new line if CTRL-D was pressed
         if (currentLine == null) {
             writer.println();
@@ -95,6 +107,8 @@ public class Console {
         if (engine.isStarted()) {
             engine.stop();
         }
+        
+        history.flushBuffer();
     }
 
     public static void println(String text, Object... args) {
