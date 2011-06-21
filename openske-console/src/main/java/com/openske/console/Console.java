@@ -107,8 +107,6 @@ public class Console {
         if (engine.isStarted()) {
             engine.stop();
         }
-        
-        history.flushBuffer();
     }
 
     public static void println(String text, Object... args) {
@@ -116,7 +114,7 @@ public class Console {
     }
 
     public static void clearScreen() {
-
+        
     }
 
     public static void main(String[] args) throws Throwable {
