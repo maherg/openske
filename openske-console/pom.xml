@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>openske</artifactId>
-        <groupId>com.openske</groupId>
+        <groupId>openske</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.openske</groupId>
+    <groupId>openske</groupId>
     <artifactId>openske-console</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>OpenSKE : Console</name>
@@ -16,13 +16,13 @@
     <dependencies>
         
         <dependency>
-            <groupId>com.openske</groupId>
+            <groupId>openske</groupId>
             <artifactId>openske-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         
         <dependency>
-            <groupId>com.openske</groupId>
+            <groupId>openske</groupId>
             <artifactId>openske-expertise</artifactId>
             <version>${project.version}</version>
         </dependency>
