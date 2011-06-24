@@ -1,14 +1,14 @@
-package com.openske.rules;
+package openske.rules;
 
-import com.openske.model.assets.*;
-import com.openske.model.assets.data.*;
-import com.openske.model.assets.services.*;
-import com.openske.model.software.*;
-import com.openske.model.attacks.*;
-import com.openske.model.security.*;
-import com.openske.model.hardware.*;
+import openske.model.assets.*;
+import openske.model.assets.data.*;
+import openske.model.assets.services.*;
+import openske.model.software.*;
+import openske.model.attacks.*;
+import openske.model.security.*;
+import openske.model.hardware.*;
 
-import function com.openske.engine.Engine.print;
+import function openske.engine.Engine.print;
 
 
 rule "CAPEC-1 : Accessing Functionality Not Properly Constrained by ACLs"
