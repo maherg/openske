@@ -3,6 +3,10 @@ package openske.console;
 import java.io.File;
 import java.io.IOException;
 
+import jline.ArgumentCompletor;
+import jline.ConsoleReader;
+import jline.History;
+import jline.SimpleCompletor;
 import openske.console.commands.BenchmarkCommand;
 import openske.console.commands.ClearCommand;
 import openske.console.commands.ConsoleCommand;
@@ -14,11 +18,6 @@ import openske.console.commands.StartCommand;
 import openske.console.commands.StatusCommand;
 import openske.console.commands.StopCommand;
 import openske.engine.Engine;
-
-import jline.ArgumentCompletor;
-import jline.ConsoleReader;
-import jline.History;
-import jline.SimpleCompletor;
 
 
 public class Console {
@@ -50,14 +49,14 @@ public class Console {
         ConsoleCommandFactory.create(StartCommand.class);
         ConsoleCommandFactory.create(StopCommand.class);
         ConsoleCommandFactory.create(StatusCommand.class);
-        reader.addCompletor(new ArgumentCompletor(new SimpleCompletor(openske.console.commands.ConsoleCommandFactory.listCommandNames())));
+        reader.addCompletor(new ArgumentCompletor(new SimpleCompletor(ConsoleCommandFactory.listCommandNames())));
         currentLine = null;
 
         engine = Engine.getInstance();
         engine.setOutputWriter(writer);
     }
 
-    private static void printHeader() {
+    private static void welcomeMessage() {
         writer.printf("Welcome to OpenSKE (JVM: %s) !", System.getProperty("java.version"));
         writer.printf("Type 'help' for help\n");
     }
@@ -116,13 +115,17 @@ public class Console {
     }
 
     public static void clearScreen() {
-        
+        try {
+            reader.clearScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws Throwable {
         initialize();
 
-        printHeader();
+        welcomeMessage();
 
         mainLoop();
 

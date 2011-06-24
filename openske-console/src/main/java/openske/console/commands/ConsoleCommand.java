@@ -1,10 +1,8 @@
 package openske.console.commands;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 import jline.Completor;
-
 import openske.console.Console;
 
 import org.apache.commons.cli.CommandLine;
@@ -63,6 +61,7 @@ public abstract class ConsoleCommand implements Comparable<ConsoleCommand>, Comp
         new HelpFormatter().printHelp(name, options);
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public int complete(String buffer, int cursor, List candidates) {
         return cursor;
