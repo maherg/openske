@@ -1,15 +1,15 @@
-package com.openske.rules;
+package openske.rules;
 
 /**
  * Assets Rules
  */
 
-import com.openske.model.hardware.Host;
-import com.openske.model.assets.Asset;
-import com.openske.model.software.Software;
-import com.openske.model.security.SecurityState;
+import openske.model.hardware.Host;
+import openske.model.assets.Asset;
+import openske.model.software.Software;
+import openske.model.security.SecurityState;
 
-import function com.openske.engine.Engine.print;
+import function openske.engine.Engine.print;
 
 
 rule "Mark assets that are surrounded by risky software as risky"

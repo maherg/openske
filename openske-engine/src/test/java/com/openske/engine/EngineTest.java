@@ -1,4 +1,4 @@
-package com.openske.engine;
+package openske.engine;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

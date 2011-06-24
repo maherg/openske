@@ -1,6 +1,6 @@
-import com.openske.model.hardware.*
-import com.openske.model.software.*
-import com.openske.model.security.*
+import openske.model.hardware.*
+import openske.model.software.*
+import openske.model.security.*
 
 def router = new Router("router")
 session.insert(router)

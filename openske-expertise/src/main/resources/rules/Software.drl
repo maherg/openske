@@ -1,13 +1,13 @@
-package com.openske.rules;
+package openske.rules;
 
 /**
  * Software Rules
  */
 
-import com.openske.model.software.Software;
-import com.openske.model.security.SecurityState;
+import openske.model.software.Software;
+import openske.model.security.SecurityState;
 
-import function com.openske.engine.Engine.print;
+import function openske.engine.Engine.print;
 
 rule "Mark vulnerable software or others that depend on it as risky"
     when

@@ -1,10 +1,10 @@
-package com.openske.rules
+package openske.rules
 
-import com.openske.model.security.*;
-import com.openske.model.software.*;
-import com.openske.model.assets.*;
+import openske.model.security.*;
+import openske.model.software.*;
+import openske.model.assets.*;
 
-import function com.openske.engine.Engine.print;
+import function openske.engine.Engine.print;
 
 
 rule "Print assets that have become risky"

@@ -1,15 +1,15 @@
-import com.openske.model.assets.AssetAccessType;
-import com.openske.model.assets.data.DatabaseAsset;
-import com.openske.model.assets.data.FileAsset;
-import com.openske.model.assets.services.ServiceAsset;
-import com.openske.model.hardware.Host;
-import com.openske.model.hardware.Router;
-import com.openske.model.security.User;
-import com.openske.model.security.UserAccount;
-import com.openske.model.software.Software;
-import com.openske.model.software.Weakness;
-import com.openske.model.assets.data.*;
-import com.openske.model.Infrastructure;
+import openske.model.assets.AssetAccessType;
+import openske.model.assets.data.DatabaseAsset;
+import openske.model.assets.data.FileAsset;
+import openske.model.assets.services.ServiceAsset;
+import openske.model.hardware.Host;
+import openske.model.hardware.Router;
+import openske.model.security.User;
+import openske.model.security.UserAccount;
+import openske.model.software.Software;
+import openske.model.software.Weakness;
+import openske.model.assets.data.*;
+import openske.model.Infrastructure;
 
 // Hosts
 Host webHost = new Host("web.proggy");

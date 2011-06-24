@@ -1,4 +1,4 @@
-package com.openske.rules;
+package openske.rules;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
