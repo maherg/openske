@@ -18,10 +18,7 @@ public class HelpCommand extends ConsoleCommand {
         if(Console.currentCommandArgs.length > 0) {
             for(String cmdName : Console.currentCommandArgs) {
                 if(Console.hasCommand(cmdName)) {
-                    ConsoleCommand cmd = Console.getCommand(cmdName);
-                    Console.println("\n" + cmd.help() + "\n\n");
-                    cmd.printOptionsHelp();
-                    Console.println("\n");
+                    Console.getCommand(cmdName).printHelp();
                 }
             }
         } else {
