@@ -7,6 +7,9 @@ import java.util.Collection;
 import openske.engine.Engine;
 import openske.engine.EngineMode;
 import openske.model.Infrastructure;
+import openske.model.InfrastructureItem;
+import openske.model.software.Software;
+import openske.model.software.Weakness;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
@@ -73,6 +76,13 @@ public class DroolsFacade {
             for(String type : infrastructure.types()) {
                 for(Object fact : infrastructure.list(type)) {
                     getSession().insert(fact);
+                }
+            }
+            
+            // FIXME : Insert software weaknesses explicitly
+            for(InfrastructureItem i : infrastructure.list(Software.class)) {
+                for(Weakness w : ((Software)i).getWeaknesses()) {
+                    getSession().insert(w);
                 }
             }
             
@@ -143,7 +153,7 @@ public class DroolsFacade {
             session = knowledgeBase.newStatefulKnowledgeSession();
             log("Opened new Drools session (%s)", session.toString());
 	    if(Engine.getInstance().getMode() != EngineMode.BENCHMARK) {
-		droolsLogger = KnowledgeRuntimeLoggerFactory.newFileLogger(session, "openske");
+		droolsLogger = KnowledgeRuntimeLoggerFactory.newFileLogger(session, "openske-drools");
 	    }
             DroolsAgendaEventListener agendaListener = new DroolsAgendaEventListener();
             // DroolsProcessEventListener processListener = new DroolsProcessEventListener(); 
