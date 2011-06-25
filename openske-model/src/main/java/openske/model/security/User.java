@@ -3,12 +3,13 @@ package openske.model.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import openske.model.InfrastructureItem;
 import openske.model.assets.AssetAccess;
 import openske.model.assets.AssetAccessor;
 import openske.model.hardware.Host;
 
 
-public class User implements AssetAccessor {
+public class User extends InfrastructureItem implements AssetAccessor {
 
     protected String fullName;
     protected String email;
@@ -108,5 +109,15 @@ public class User implements AssetAccessor {
 
     public void setAssetAccesses(List<AssetAccess> assetAccesses) {
         this.assetAccesses = assetAccesses;
+    }
+
+    @Override
+    public String statistics() {
+        return String.format("%s : %s", this.getClass().getSimpleName(), fullName);
+    }
+
+    @Override
+    public String inspect() {
+        return statistics();
     }
 }

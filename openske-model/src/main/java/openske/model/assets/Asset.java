@@ -1,19 +1,29 @@
 package openske.model.assets;
 
+import openske.model.InfrastructureItem;
 import openske.model.hardware.Host;
 import openske.model.security.SecurityState;
 
-public class Asset {
+public abstract class Asset extends InfrastructureItem {
 
     protected String name;
     protected Host host;
-    protected SecurityState securityState;
     protected AssetType type;
 
     protected Asset(String name, Host host, AssetType type) {
         this.name = name;
         this.host = host;
         this.type = type;
+    }
+    
+    @Override
+    public String statistics() {
+        return String.format("%s : %s", this.getClass().getSimpleName(), name);
+    }
+    
+    @Override
+    public String inspect() {
+        return statistics();
     }
 
     public String getName() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import openske.model.InfrastructureItem;
 import openske.model.assets.Asset;
 import openske.model.assets.AssetAccess;
 import openske.model.assets.AssetAccessType;
@@ -16,7 +17,7 @@ import openske.model.security.UserAccount;
 import openske.model.security.UserGroup;
 
 
-public class Software implements AssetAccessor, CpeEntry, Comparable<Software> {
+public class Software extends InfrastructureItem implements AssetAccessor, CpeEntry, Comparable<Software> {
 
     protected Host host;
     protected String cpeId;
@@ -225,5 +226,30 @@ public class Software implements AssetAccessor, CpeEntry, Comparable<Software> {
     @Override
     public int compareTo(Software o) {
         return cpeId.compareToIgnoreCase(o.cpeId());
+    }
+
+    @Override
+    public String statistics() {
+        return String.format("%s : %s (vulnerabilities = %d, weaknesses = %d)", this.getClass().getSimpleName(), cpeId, vulnerabilities.size(), weaknesses.size());
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Software && ((Software)obj).cpeId().equals(cpeId);
+    }
+    
+    @Override
+    public String inspect() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(statistics());
+        sb.append("\n");
+        sb.append(" - Weaknesses:\n");
+        for(Weakness w : weaknesses) {
+            sb.append("\t - " + w.toString() + " : " + w.getName() + "\n");
+        }
+//        for(Vulnerability v : vulnerabilities) {
+//            sb.append("\t - " + v.toString() + "\n");
+//        }
+        return sb.toString();
     }
 }
