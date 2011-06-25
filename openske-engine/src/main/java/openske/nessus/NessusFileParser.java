@@ -70,27 +70,27 @@ public class NessusFileParser {
                         String cpeId = extractCpeId(vulnNode);
                         Software software = new Software(cpeId, host);
                         
-                        host.addSoftware(software);
-
-                        if (!infrastructure.has(CpeEntry.class, cpeId)) {
-                            infrastructure.add(software);
-                        } else {
-                            software = (Software) infrastructure.get(CpeEntry.class, cpeId);
+                        if(infrastructure.has(Software.class, cpeId)) {
+                            software = (Software) infrastructure.get(Software.class, cpeId);
                         }
+                        
+                        host.addSoftware(software);
+                        infrastructure.add(software);
 
                         software.addVulnerabilities(extractCveIds(vulnNode).toArray(new String[0]));
+                        
                     }
                 }
             }
         }
     }
 
-    private Host extractHost(Element hostNode) {
+    private Host extractHost(Element hostNode) {        
         String hostAddress = hostNode.getAttribute("name");
-        if (infrastructure.has(Connectable.class, hostAddress)) {
+        // FIXME : Assuming all NEW findings are hosts
+        if (infrastructure.has(Host.class, hostAddress)) {
             return (Host) infrastructure.get(Connectable.class, hostAddress);
         } else {
-            // FIXME : Assuming all NEW findings are hosts
             Host host = new Host(hostAddress);
             infrastructure.add(host);
             return host;
