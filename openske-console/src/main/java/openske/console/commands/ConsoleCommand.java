@@ -9,6 +9,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -61,9 +62,14 @@ public abstract class ConsoleCommand implements Comparable<ConsoleCommand>, Comp
         new HelpFormatter().printHelp(name, options);
     }
     
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public int complete(String buffer, int cursor, List candidates) {
+        if(Console.currentCommand.equalsIgnoreCase(name)) {
+            for(Object opt : options.getOptions()) {
+                candidates.add(((Option)opt).getOpt());
+            }
+        }
         return cursor;
     }
     

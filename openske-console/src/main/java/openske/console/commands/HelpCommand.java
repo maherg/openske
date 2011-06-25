@@ -17,8 +17,8 @@ public class HelpCommand extends ConsoleCommand {
     public void execute() {
         if(Console.currentCommandArgs.length > 0) {
             for(String cmdName : Console.currentCommandArgs) {
-                if(ConsoleCommandFactory.hasCommand(cmdName)) {
-                    ConsoleCommand cmd = ConsoleCommandFactory.getCommand(cmdName);
+                if(Console.hasCommand(cmdName)) {
+                    ConsoleCommand cmd = Console.getCommand(cmdName);
                     Console.println("\n" + cmd.help() + "\n\n");
                     cmd.printOptionsHelp();
                     Console.println("\n");
@@ -26,7 +26,7 @@ public class HelpCommand extends ConsoleCommand {
             }
         } else {
             Console.println("\nThe following are the available console commands.\n");
-            for(ConsoleCommand cmd : ConsoleCommandFactory.listCommands()) {
+            for(ConsoleCommand cmd : Console.listCommands()) {
                 Console.println(helpEntry(cmd));
             }
             Console.println("\n");

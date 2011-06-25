@@ -1,5 +1,7 @@
 package openske.console.commands;
 
+import openske.console.Console;
+
 public class RestartCommand extends StartCommand {
     
     public RestartCommand() {
@@ -8,7 +10,7 @@ public class RestartCommand extends StartCommand {
 
     @Override
     public void execute() {
-        ConsoleCommandFactory.getCommand("stop").execute();
+        Console.getCommand("stop").execute();
         super.execute();
     }
 
