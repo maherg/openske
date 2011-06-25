@@ -1,6 +1,6 @@
 package openske.model.measurablesecurity;
 
-public interface CommonPlatformEnumeration {
+public interface CpeEntry {
 
     public String cpeId();
 }

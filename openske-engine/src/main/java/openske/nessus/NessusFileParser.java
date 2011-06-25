@@ -11,7 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import openske.model.Infrastructure;
 import openske.model.hardware.Connectable;
 import openske.model.hardware.Host;
-import openske.model.measurablesecurity.CommonPlatformEnumeration;
+import openske.model.measurablesecurity.CpeEntry;
 import openske.model.software.Software;
 
 import org.w3c.dom.Document;
@@ -72,10 +72,10 @@ public class NessusFileParser {
                         
                         host.addSoftware(software);
 
-                        if (!infrastructure.has(CommonPlatformEnumeration.class, cpeId)) {
+                        if (!infrastructure.has(CpeEntry.class, cpeId)) {
                             infrastructure.add(software);
                         } else {
-                            software = (Software) infrastructure.get(CommonPlatformEnumeration.class, cpeId);
+                            software = (Software) infrastructure.get(CpeEntry.class, cpeId);
                         }
 
                         software.addVulnerabilities(extractCveIds(vulnNode).toArray(new String[0]));

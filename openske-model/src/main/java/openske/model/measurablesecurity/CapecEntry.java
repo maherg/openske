@@ -1,6 +1,6 @@
 package openske.model.measurablesecurity;
 
-public interface CommonAttackPatternEnumerationAndClassification {
+public interface CapecEntry {
 
     String capecId();
 }

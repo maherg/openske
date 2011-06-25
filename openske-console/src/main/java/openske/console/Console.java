@@ -10,6 +10,7 @@ import jline.ArgumentCompletor;
 import jline.Completor;
 import jline.ConsoleReader;
 import jline.History;
+import jline.MultiCompletor;
 import jline.SimpleCompletor;
 import openske.console.commands.BenchmarkCommand;
 import openske.console.commands.ClearCommand;

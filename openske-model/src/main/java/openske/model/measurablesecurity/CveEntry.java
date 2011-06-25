@@ -1,6 +1,6 @@
 package openske.model.measurablesecurity;
 
-public interface CommonVulnerabilitiesAndExposures {
+public interface CveEntry {
     
     String cveId();
 }

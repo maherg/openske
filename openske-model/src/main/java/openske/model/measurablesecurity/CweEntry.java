@@ -1,7 +1,7 @@
 package openske.model.measurablesecurity;
 
 
-public interface CommonWeaknessEnumeration {
+public interface CweEntry {
 
     void cweId();
     

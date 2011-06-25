@@ -10,13 +10,13 @@ import openske.model.assets.AssetAccessType;
 import openske.model.assets.AssetAccessor;
 import openske.model.assets.AssetType;
 import openske.model.hardware.Host;
-import openske.model.measurablesecurity.CommonPlatformEnumeration;
+import openske.model.measurablesecurity.CpeEntry;
 import openske.model.security.SecurityState;
 import openske.model.security.UserAccount;
 import openske.model.security.UserGroup;
 
 
-public class Software implements AssetAccessor, CommonPlatformEnumeration, Comparable<Software> {
+public class Software implements AssetAccessor, CpeEntry, Comparable<Software> {
 
     protected Host host;
     protected String cpeId;

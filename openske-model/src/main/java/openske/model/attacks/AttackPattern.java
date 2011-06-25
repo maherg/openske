@@ -1,9 +1,9 @@
 package openske.model.attacks;
 
-import openske.model.measurablesecurity.CommonAttackPatternEnumerationAndClassification;
+import openske.model.measurablesecurity.CapecEntry;
 import openske.model.software.Weakness;
 
-public class AttackPattern implements CommonAttackPatternEnumerationAndClassification {
+public class AttackPattern implements CapecEntry {
 
     protected String capecId;
     protected String description;
