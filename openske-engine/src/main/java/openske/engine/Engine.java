@@ -68,15 +68,15 @@ public class Engine {
                 // Infrastructure loading (Nessus is optional)
                 infrastructure = new Infrastructure(infrastructureFile);
                 
-                // Loading facts
-                drools.loadFacts(infrastructure);
-                log("Loading facts into Drools completed at : %.2f seconds", this.getRunningTime());
-                
                 if(nessusFile != null && nessusFile.exists()) {
                     nessusParser = new NessusFileParser(nessusFile, infrastructure);
                     nessusParser.parse();
                     log("Parsing Nessus output into Drools completed at : %.2f seconds", this.getRunningTime());
                 }
+                
+                // Loading facts
+                drools.loadFacts(infrastructure);
+                log("Loading facts into Drools completed at : %.2f seconds", this.getRunningTime());
                 
                 // Fire all activations
                 drools.fireRules();
