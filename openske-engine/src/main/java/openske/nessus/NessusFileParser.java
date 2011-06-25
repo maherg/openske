@@ -9,9 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import openske.model.Infrastructure;
-import openske.model.hardware.Connectable;
 import openske.model.hardware.Host;
-import openske.model.measurablesecurity.CpeEntry;
 import openske.model.software.Software;
 
 import org.w3c.dom.Document;
@@ -89,7 +87,7 @@ public class NessusFileParser {
         String hostAddress = hostNode.getAttribute("name");
         // FIXME : Assuming all NEW findings are hosts
         if (infrastructure.has(Host.class, hostAddress)) {
-            return (Host) infrastructure.get(Connectable.class, hostAddress);
+            return (Host) infrastructure.get(Host.class, hostAddress);
         } else {
             Host host = new Host(hostAddress);
             infrastructure.add(host);

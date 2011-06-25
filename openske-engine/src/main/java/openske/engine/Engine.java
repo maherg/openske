@@ -66,7 +66,12 @@ public class Engine {
                 log("Loading rules into Drools completed at : %.2f seconds", this.getRunningTime());
                 
                 // Infrastructure loading (Nessus is optional)
-                infrastructure = new Infrastructure(infrastructureFile);
+                infrastructure = null;
+                if(infrastructureFile != null && infrastructureFile.exists()) {
+                    infrastructure = new Infrastructure(infrastructureFile);
+                } else {
+                    infrastructure = new Infrastructure("Infrastructure " + System.currentTimeMillis());
+                }
                 
                 if(nessusFile != null && nessusFile.exists()) {
                     nessusParser = new NessusFileParser(nessusFile, infrastructure);
@@ -151,10 +156,12 @@ public class Engine {
         
         StringBuffer sb = new StringBuffer();
         
-        sb.append("OpenSKE Status:\n\n");
-        
         sb.append(infrastructure.statistics());
         
         return sb.toString();
+    }
+
+    public Infrastructure getInfrastructure() {
+        return infrastructure;
     }
 }

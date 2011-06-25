@@ -10,6 +10,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -20,6 +21,8 @@ import org.apache.commons.cli.ParseException;
  */
 public abstract class ConsoleCommand implements Comparable<ConsoleCommand>, Completor {
     
+    protected static final String OPTION_HELP = "help";
+    
     protected String name;
     
     protected Options options;
@@ -28,10 +31,11 @@ public abstract class ConsoleCommand implements Comparable<ConsoleCommand>, Comp
     
     protected CommandLine commandLine;
     
-    public ConsoleCommand(String name) {
-        this.name = name;
-        this.commandLineParser = new GnuParser();
-        this.options = new Options();
+    public ConsoleCommand(String cmdName) {
+        name = cmdName;
+        commandLineParser = new GnuParser();
+        options = new Options();
+        options.addOption(OptionBuilder.withDescription("Prints the command's help text.").create(OPTION_HELP));
     }
     
     public String getName() {
@@ -58,8 +62,10 @@ public abstract class ConsoleCommand implements Comparable<ConsoleCommand>, Comp
         }
     }
     
-    public void printOptionsHelp() {
+    public void printHelp() {
+        Console.println("\n" + help() + "\n\n");
         new HelpFormatter().printHelp(name, options);
+        Console.println("\n");
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -78,4 +84,8 @@ public abstract class ConsoleCommand implements Comparable<ConsoleCommand>, Comp
     public abstract void execute();
     
     public abstract String help();
+
+    public boolean isHelpNeeded() {
+        return commandLine.hasOption(OPTION_HELP);
+    }
 }
