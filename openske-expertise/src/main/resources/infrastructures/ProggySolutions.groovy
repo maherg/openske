@@ -18,12 +18,14 @@ Host station1 = new Host("station1.proggy");
 Host station2 = new Host("station2.proggy");
 Host attackerHost = new Host("attacker.proggy");
 Router router = new Router("router.proggy");
+
 // Connections
 router.addConnection(webHost);
 router.addConnection(dbHost);
 router.addConnection(station1);
 router.addConnection(station2);
 webHost.addConnection(attackerHost);
+
 // Software
 Software phpMyAdmin = new Software("cpe:/a:phpmyadmin:phpmyadmin:2.1", webHost);
 Software apache = new Software("cpe:/a:apache:apache:2.2", webHost);
@@ -33,11 +35,13 @@ webHost.addSoftware(apache);
 webHost.addSoftware(phpMyAdmin);
 webHost.addSoftware(proggyWeb);
 dbHost.addSoftware(mysql);
+
 // Weaknesses
-Weakness cwe20 = new Weakness("CWE-20", proggyWeb);
-Weakness cwe285 = new Weakness("CWE-285", proggyWeb);
-Weakness cwe521 = new Weakness("CWE-521", phpMyAdmin);
-Weakness cwe400 = new Weakness("CWE-400", proggyWeb);
+proggyWeb.addWeakness("CWE-20");
+proggyWeb.addWeakness("CWE-285");
+proggyWeb.addWeakness("CWE-400");
+phpMyAdmin.addWeakness("CWE-521");
+
 // Assets
 ServiceAsset proggyBookWeb = new ServiceAsset("Proggy Web", proggyWeb);
 DatabaseAsset proggyBookDatabase = new DatabaseAsset("ProggyBook Database", dbHost, "proggybook");
@@ -62,10 +66,6 @@ infra.add(dbHost);
 infra.add(station1);
 infra.add(station2);
 infra.add(phpMyAdmin);
-infra.add(cwe20);
-infra.add(cwe285);
-infra.add(cwe521);
-infra.add(cwe400);
 infra.add(apache);
 infra.add(mysql);
 infra.add(proggyWeb);

@@ -80,7 +80,7 @@ public class Software extends InfrastructureItem implements AssetAccessor, CpeEn
     }
 
     public Software addWeakness(Weakness weakness) {
-        if (weakness != null && this.hasWeakness(weakness)) {
+        if (weakness != null && !this.hasWeakness(weakness)) {
             this.weaknesses.add(weakness);
             weakness.setSoftware(this);
         }
