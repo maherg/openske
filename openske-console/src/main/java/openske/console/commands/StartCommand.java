@@ -32,6 +32,10 @@ public class StartCommand extends ConsoleCommand {
 
     @Override
     public void execute() {
+        if(Console.currentCommandArgs.length == 0) {
+            printHelp();
+            return;
+        }
         if (commandLine.hasOption(OPTION_INFRASTRUCTURE_FILE)) {
             Console.engine.setInfrastructureFile(new File(commandLine.getOptionValue(OPTION_INFRASTRUCTURE_FILE)));
         }
