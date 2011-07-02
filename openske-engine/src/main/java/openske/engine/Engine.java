@@ -99,6 +99,7 @@ public class Engine {
         if (this.isStarted()) {
             log("Stopping OpenSKE engine...");
             drools.cleanup();
+            infrastructure = null;
             started = false;
         }
     }
