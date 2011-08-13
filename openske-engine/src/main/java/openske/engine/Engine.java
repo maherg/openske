@@ -100,6 +100,7 @@ public class Engine {
             log("Stopping OpenSKE engine...");
             drools.cleanup();
             infrastructure = null;
+            nessusFile = null;
             started = false;
         }
     }
