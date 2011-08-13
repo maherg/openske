@@ -6,17 +6,17 @@ import openske.model.software.Software
 
 
 // Metasploitable VM
-def metasploitHost = new Host("192.168.1.75")
-def ubuntuLinux = new Software("cpe:/o:ubuntu:linux", metasploitHost)
-def msfadminAccount = new UserAccount("msfadmin", "msfadmin", ubuntuLinux)
+Host metasploitHost = new Host("192.168.56.101")
+Software ubuntuLinux = new Software("cpe:/o:ubuntu:linux", metasploitHost)
+UserAccount msfadminAccount = new UserAccount("msfadmin", "msfadmin", ubuntuLinux)
 
 // Assets
-def secretAsset = new FileAsset("Secret Plans", metasploitHost, "/home/secret/plans.xls")
+FileAsset secretAsset = new FileAsset("Secret Plans", metasploitHost, "/home/secret/plans.xls")
 
 // Attacker
-def attackerHost = new Host("192.168.1.44")
+Host attackerHost = new Host("192.168.1.44")
 attackerHost.addConnection(metasploitHost)
-def attacker = new User("Lone Attacker", "lone.attacker@example.com", attackerHost, true)
+User attacker = new User("Lone Attacker", "lone.attacker@example.com", attackerHost, true)
 attacker.addAccount(msfadminAccount)
 
 infra.add(metasploitHost)
