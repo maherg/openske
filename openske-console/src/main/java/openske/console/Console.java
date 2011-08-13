@@ -73,7 +73,7 @@ public class Console {
 
     private static void welcomeMessage() {
         writer.printf("Welcome to OpenSKE (JVM: %s) !", System.getProperty("java.version"));
-        writer.printf("Type 'help' for help\n");
+        writer.printf("Type 'help' for help\n\n");
     }
 
     private static void mainLoop() throws Exception {
