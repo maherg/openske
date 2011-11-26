@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>com.openske</groupId>
+    <groupId>openske</groupId>
     <artifactId>openske-model</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>OpenSKE : Model</name>
 
     <parent>
         <artifactId>openske</artifactId>
-        <groupId>com.openske</groupId>
+        <groupId>openske</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <dependencies>

@@ -24,7 +24,7 @@ $MAVEN_BIN -q install -DskipTests
 
 if [ $? == "0" ]; then
 
-    message "Running OpenSKE's console..."
+    message "Running OpenSKE's Console..."
 
-    MAVEN_OPTS=$MAVEN_OPTS $MAVEN_BIN -q -f $OPENSKE_CONSOLE/pom.xml exec:java -Dexec.mainClass=com.openske.console.Console
+    MAVEN_OPTS=$MAVEN_OPTS $MAVEN_BIN -q -f $OPENSKE_CONSOLE/pom.xml exec:java -Dexec.mainClass=openske.console.Console
 fi

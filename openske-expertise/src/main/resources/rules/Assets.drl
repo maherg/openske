@@ -1,0 +1,34 @@
+package openske.rules;
+
+/**
+ * Assets Rules
+ */
+
+import openske.model.hardware.Host;
+import openske.model.assets.Asset;
+import openske.model.software.Software;
+import openske.model.security.SecurityState;
+
+import function openske.engine.Engine.print;
+
+
+rule "Mark assets that are surrounded by risky software as risky"
+    when
+        # Match any asset
+        $asset : Asset()
+        and
+        exists(
+            # Match any risky software on the same asset host
+            $software : Software( host == $asset.host , securityState == SecurityState.RISKY )
+            or
+            (
+                # Match any host that is connected to the asset host
+                $neighbor : Host( connections contains $asset.host )
+                and
+                # Match any risky software on the connected host
+                $software : Software( host == $neighbor , securityState == SecurityState.RISKY )
+            )
+        )
+    then
+        $asset.setSecurityState(SecurityState.RISKY);
+end
