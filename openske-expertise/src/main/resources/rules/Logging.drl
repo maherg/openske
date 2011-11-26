@@ -1,0 +1,33 @@
+package openske.rules
+
+import openske.model.security.*;
+import openske.model.software.*;
+import openske.model.assets.*;
+
+import function openske.engine.Engine.print;
+
+
+rule "Print assets that have become risky"
+    when
+        $asset : Asset( securityState == SecurityState.RISKY )
+    then
+        print("[LOGGING] Asset '%s' has become risky !", $asset.getName());
+end
+
+
+rule "Detect the presence of an attacker"
+	when
+		$attacker : User( attacker == true )
+	then 
+		print("[LOGGING] Attacker '%s' detected on host '%s'", $attacker.getFullName(), $attacker.getHost().getAddress()); 
+end
+
+
+rule "Detect the reachability of an attacker ( if any )"
+    when
+        $attacker : User( $attackerHost : host , attacker == true )
+        $software : Software( $softwareHost : host )
+        eval( $attackerHost.canReach($softwareHost) )
+    then
+        print("[LOGGING] Attacker '%s' can reach software '%s'", $attacker.getFullName(), $software.toString());
+end
