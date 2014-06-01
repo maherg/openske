@@ -7,3 +7,5 @@ target
 *-yuml.png
 *.log
 .hg*
+.idea
+*.iml
