@@ -9,6 +9,7 @@ import org.drools.event.rule.AgendaEventListener;
 import org.drools.event.rule.AgendaGroupPoppedEvent;
 import org.drools.event.rule.AgendaGroupPushedEvent;
 import org.drools.event.rule.BeforeActivationFiredEvent;
+import org.drools.event.rule.RuleFlowGroupDeactivatedEvent;
 
 public class DroolsAgendaEventListener implements AgendaEventListener {
     
@@ -45,6 +46,30 @@ public class DroolsAgendaEventListener implements AgendaEventListener {
 
     @Override
     public void agendaGroupPopped(AgendaGroupPoppedEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void beforeRuleFlowGroupActivated(org.drools.event.rule.RuleFlowGroupActivatedEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void afterRuleFlowGroupActivated(org.drools.event.rule.RuleFlowGroupActivatedEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void beforeRuleFlowGroupDeactivated(RuleFlowGroupDeactivatedEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void afterRuleFlowGroupDeactivated(RuleFlowGroupDeactivatedEvent event) {
         // TODO Auto-generated method stub
 
     }

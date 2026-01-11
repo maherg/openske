@@ -7,6 +7,7 @@ import org.drools.event.process.ProcessEventListener;
 import org.drools.event.process.ProcessNodeLeftEvent;
 import org.drools.event.process.ProcessNodeTriggeredEvent;
 import org.drools.event.process.ProcessStartedEvent;
+import org.drools.event.process.ProcessVariableChangedEvent;
 
 public class DroolsProcessEventListener implements ProcessEventListener {
     
@@ -60,7 +61,19 @@ public class DroolsProcessEventListener implements ProcessEventListener {
     @Override
     public void beforeProcessStarted(ProcessStartedEvent event) {
         outputWriter.printf("Starting process '%s'...", event.getProcessInstance().getProcessId());
-        
+
+    }
+
+    @Override
+    public void beforeVariableChanged(ProcessVariableChangedEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void afterVariableChanged(ProcessVariableChangedEvent event) {
+        // TODO Auto-generated method stub
+
     }
 
     public PrintWriter getOutputWriter() {

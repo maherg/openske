@@ -15,17 +15,17 @@
     </parent>
     <dependencies>
     	<dependency>
-    		<groupId>stax</groupId>
-    		<artifactId>stax</artifactId>
-    		<version>1.2.0</version>
+    		<groupId>javax.xml.stream</groupId>
+    		<artifactId>stax-api</artifactId>
+    		<version>1.0-2</version>
     		<type>jar</type>
     		<scope>compile</scope>
     	</dependency>
     	<dependency>
-    		<groupId>org.codehaus.groovy</groupId>
+    		<groupId>org.apache.groovy</groupId>
     		<artifactId>groovy-all</artifactId>
-    		<version>1.7.5</version>
-    		<type>jar</type>
+    		<version>${groovy.version}</version>
+    		<type>pom</type>
     		<scope>compile</scope>
     	</dependency>
     </dependencies>
