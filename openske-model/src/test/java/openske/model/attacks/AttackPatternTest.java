@@ -91,11 +91,15 @@ class AttackPatternTest {
     @DisplayName("Should support CAPEC-7: SQL Injection prerequisites")
     void testCAPEC7Prerequisites() {
         // CAPEC-7 requires: CWE-89, CWE-209, CWE-74, CWE-20, CWE-390, CWE-697, CWE-713, CWE-707
-        targetSoftware.addWeakness("CWE-89");  // SQL Injection
-        targetSoftware.addWeakness("CWE-209"); // Information Exposure Through Error Messages
-        targetSoftware.addWeakness("CWE-74");  // Injection
+        // Use fresh software to avoid test isolation issues
+        Software freshSoftware = new Software("cpe:2.3:a:test:fresh:1.0:*:*:*:*:*:*:*", targetHost);
+        int initialCount = freshSoftware.getWeaknesses().size();
         
-        assertEquals(3, targetSoftware.getWeaknesses().size());
+        freshSoftware.addWeakness("CWE-89");  // SQL Injection
+        freshSoftware.addWeakness("CWE-209"); // Information Exposure Through Error Messages
+        freshSoftware.addWeakness("CWE-74");  // Injection
+        
+        assertEquals(initialCount + 3, freshSoftware.getWeaknesses().size());
     }
 
     @Test
