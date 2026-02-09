@@ -1,4 +1,4 @@
-package openske.rules
+package openske.rules;
 
 import openske.model.security.*;
 import openske.model.software.*;
